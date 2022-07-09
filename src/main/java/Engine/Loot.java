@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Loot {
-    private int value, weight;
+    private double value, weight;
     private double ratio;
     private String description;
     private static Random rdm = new Random();
@@ -17,7 +17,13 @@ public class Loot {
     public Loot(){
         value = rdm.nextInt(MAX_VALUE)+1;
         weight = rdm.nextInt(MAX_WEIGHT)+1;
-        ratio = value/weight;
+        this.ratio = value/weight;
+        description = desc.get(rdm.nextInt(desc.size()));
+    }
+    public Loot(double value, double weight){
+        this.value = value;
+        this.weight = weight;
+        this.ratio = value/weight;
         description = desc.get(rdm.nextInt(desc.size()));
     }
 
@@ -27,10 +33,10 @@ public class Loot {
             System.out.println(l.toString());
         }
     }
-    public int getValue(){
+    public double getValue(){
         return this.value;
     }
-    public int getWeight(){
+    public double getWeight(){
         return this.weight;
     }
     public double getRatio(){
@@ -48,8 +54,8 @@ public class Loot {
 
     @Override
     public String toString() {
-//        String str = "This "+this.description+" weights "+this.weight+"oz and is worth "+this.value+" ecu(s)";
-        String str = "V:"+this.getValue()+" & W:"+this.getWeight();
+//        String str = "This "+this.description+" weights "+(int) this.weight+"oz and is worth "+(int) this.value+" ecu(s)";
+        String str = "V:"+(int) this.getValue()+" & W:"+(int) this.getWeight();
         return str;
     }
 }
