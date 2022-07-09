@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -46,6 +48,14 @@ public class Controller implements Initializable {
     private ObservableList<Node> listChildren;
     private KeyEvent keyEvent;
     private Event event;
+    @FXML
+    ProgressBar abilityPB;
+    @FXML
+    ProgressBar staminaPB;
+    @FXML
+    ProgressBar luckPB;
+    @FXML
+    ProgressBar bagPB;
 
     /*
      * Scene methods
@@ -163,6 +173,14 @@ public class Controller implements Initializable {
     @Override
 //     Need to keep mp static
     public void initialize(URL location, ResourceBundle resources) {
+
+        ColorAdjust adjust = new ColorAdjust();
+        adjust.setHue(0);
+        abilityPB.setEffect(adjust);
+        adjust.setHue(0.941);
+        staminaPB.setEffect(adjust);
+        adjust.setHue(0.471);
+        luckPB.setEffect(adjust);
 
         ArrayList<File> songs = App.getSongs();
         System.out.println(songs.get(songNumber).getName());

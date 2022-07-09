@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -23,10 +23,10 @@ public class App extends Application{
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader();
-        StackPane root;
+        Pane root;
 
         try {
-            root = loader.load(getClass().getResource("mainMenu.fxml"));
+            root = loader.load(getClass().getResource("inGame.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
