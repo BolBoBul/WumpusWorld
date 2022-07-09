@@ -13,7 +13,9 @@ public class Dungeon {
 
     public static void main(String[] args) {
         Dungeon dng = new Dungeon(10, Difficulty.HARDCORE);
-        generateDungeon(dng);
+//        generateDungeon(dng);
+        Loot testL = new Loot(6,3);
+        System.out.println(testL.getRatio());
 
     }
     public Dungeon(){

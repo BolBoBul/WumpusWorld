@@ -1,5 +1,6 @@
 package Tools;
 
+import Engine.Dungeon;
 import Engine.Loot;
 
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ add a list with picked items ?
 
 public class AlgoLoot {
     public static void main(String[] args) {
-//        final int LOOT_SIZE = Dungeon.numberLoot();
-        final int LOOT_SIZE = 4;
+        final int LOOT_SIZE = Dungeon.numberLoot();
+//        final int LOOT_SIZE = 4;
         final int BAG_SIZE = 15;
         ArrayList<Loot> myLoot = new ArrayList<>();
         for (int i=0; i<LOOT_SIZE; i++){
