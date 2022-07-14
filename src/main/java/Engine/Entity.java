@@ -1,9 +1,9 @@
 package Engine;
 
 public class Entity {
-    protected int ability, stamina;
+    protected int dexterity, stamina;
     public Entity(){
-        this.ability = 0;
+        this.dexterity = 0;
         this.stamina = 0;
     }
 }

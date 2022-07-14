@@ -23,27 +23,22 @@
       </ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <StackPane layoutX="361.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity">
+            <StackPane layoutX="349.0" layoutY="205.0" maxHeight="-Infinity" maxWidth="-Infinity">
                <children>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#848484" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="177.0" />
-                  <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#848484" height="189.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="201.0" />
+                  <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="160.0" prefWidth="145.0">
                      <children>
-                        <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#switchToLevelSelector" prefWidth="120.0" text="New Game">
+                        <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#switchToLevelCreation" prefHeight="40.0" prefWidth="145.0" text="New Game">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="loadGameButton" mnemonicParsing="false" onAction="#switchToSavedLevel" prefWidth="120.0" text="Load Game">
+                        <Button fx:id="treasureRoomButton" mnemonicParsing="false" onAction="#switchToTreasure" prefHeight="40.0" prefWidth="145.0" text="Looting Acces">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="optionsButton" mnemonicParsing="false" onAction="#switchToOptions" prefHeight="40.0" prefWidth="120.0" text="Options">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="leaveButton" mnemonicParsing="false" onAction="#leaveGame" prefWidth="120.0" text="Leave">
+                        <Button fx:id="leaveButton" mnemonicParsing="false" onAction="#leaveGame" prefHeight="40.0" prefWidth="145.0" text="Leave">
                            <font>
                               <Font size="18.0" />
                            </font>
