@@ -1,6 +1,7 @@
 package Engine;
 
 public enum Difficulty {
+    PEACEFUL(90, 0, 10),
     EASY(90, 5, 5),
     NORMAL(70, 15, 15),
     HARDCORE(50, 20, 30),
