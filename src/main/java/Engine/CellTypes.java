@@ -5,7 +5,7 @@ public enum CellTypes {
     MONSTER("M"),
     TRAP("T"),
     TREASURE("X"),
-    SPAWN("L"),
+    HERO("H"),
 
     ;
     private String ID;

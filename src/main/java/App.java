@@ -26,7 +26,7 @@ public class App extends Application{
         Pane root;
 
         try {
-            root = loader.load(getClass().getResource("inGame.fxml"));
+            root = loader.load(getClass().getResource("mainMenu.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
