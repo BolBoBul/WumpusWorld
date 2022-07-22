@@ -4,8 +4,8 @@ import javafx.scene.layout.GridPane;
 
 public class BoardGame extends GridPane {
     private final int DEFAULT_SIZE = 5;
-    protected int size;
-    Cell[][] grid;
+    public int size;
+    public Cell[][] grid;
     public BoardGame(){
         super();
         size = DEFAULT_SIZE;
