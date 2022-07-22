@@ -5,8 +5,8 @@ import javafx.geometry.Pos;
 
 public class Cell {
 
-    Position pos;
-    private boolean isHidden=true;
+    public Position pos;
+    public boolean isHidden=true;
     private final CellTypes DEFAULT_CT = CellTypes.EMPTY;
     private CellTypes ct, prev_ct;
 

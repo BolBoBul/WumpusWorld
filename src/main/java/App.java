@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -27,33 +28,16 @@ public class App extends Application{
 
         try {
             root = loader.load(getClass().getResource("mainMenu.fxml"));
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 900, 600);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setTitle("My August Project");
+            primaryStage.setTitle("Wumpus World");
+            primaryStage.getIcons().add(new Image("ImageLibrary"+File.separator+ "appicon.png"));
             primaryStage.show();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-    }
-    public static ArrayList<File> getSongs(){
-        String resourcesPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-                + File.separator + "resources" + File.separator;
-        ArrayList<File> songs = new ArrayList<File>();
-        File directory = new File(resourcesPath + "MusicLibrary");
-
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-                System.out.println(file.getName());
-            }
-        }
-        System.out.println("Updated");
-        // Shuffle the music ArrayList in order to have a random playlist
-        Collections.shuffle(songs);
-        return songs;
     }
 }

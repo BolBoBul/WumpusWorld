@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <StackPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -23,14 +25,14 @@
             </ImageView>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="298.0" layoutY="22.0" prefHeight="62.0" prefWidth="304.0" text="Loots Available" textFill="WHITE" underline="true">
+                  <Label layoutX="310.0" layoutY="14.0" prefHeight="62.0" prefWidth="280.0" text="Loots Available" textFill="WHITE" underline="true">
                      <font>
                         <Font size="42.0" />
                      </font>
                   </Label>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="473.0" layoutX="298.0" layoutY="87.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="304.0" />
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="371.0" layoutX="636.0" layoutY="87.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
-                  <GridPane fx:id="lootAvailable" alignment="TOP_CENTER" layoutX="310.0" layoutY="106.0" prefHeight="435.0" prefWidth="280.0">
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="298.0" layoutY="72.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="304.0" />
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="330.0" layoutX="636.0" layoutY="72.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
+                  <GridPane fx:id="lootAvailable" alignment="TOP_CENTER" layoutX="310.0" layoutY="88.0" prefHeight="343.0" prefWidth="280.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
@@ -38,22 +40,51 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
-                  <Label layoutX="643.0" layoutY="97.0" prefHeight="62.0" prefWidth="211.0" wrapText="true">
+                  <Label layoutX="643.0" layoutY="82.0" prefHeight="62.0" prefWidth="211.0" wrapText="true">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="solutionButton" focusTraversable="false" layoutX="643.0" layoutY="165.0" mnemonicParsing="false" onAction="#seeLootSolution" text="See solution ?">
+                  <CheckBox fx:id="solutionButton" focusTraversable="false" layoutX="643.0" layoutY="150.0" mnemonicParsing="false" onAction="#seeLootSolution" text="See solution ?" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </CheckBox>
-                  <Label fx:id="solutionLabel" alignment="TOP_LEFT" layoutX="643.0" layoutY="204.0" prefHeight="244.0" prefWidth="211.0" visible="false" wrapText="true">
+                  <Label fx:id="solutionLabel" alignment="TOP_LEFT" layoutX="643.0" layoutY="189.0" prefHeight="156.0" prefWidth="211.0" visible="false" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="81.0" layoutX="636.0" layoutY="479.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="62.0" layoutX="636.0" layoutY="410.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
+                  <Label fx:id="bagCapLabel" layoutX="643.0" layoutY="412.0" text="Bag Capacity :" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ProgressBar fx:id="bagSizePB" layoutX="644.0" layoutY="442.0" prefHeight="18.0" prefWidth="204.0" progress="1.0" />
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="30.0" layoutX="638.0" layoutY="483.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
+                  <Label fx:id="bagValueLab" layoutX="643.0" layoutY="483.0" text="Bag Value :" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="329.0" layoutY="495.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
+                  <Button fx:id="leaveTRButton" focusTraversable="false" layoutX="344.0" layoutY="513.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" text="Leave Treasure Room">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="62.0" layoutX="638.0" layoutY="525.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
+                  <Button fx:id="confirmLootButton" focusTraversable="false" layoutX="659.0" layoutY="535.0" mnemonicParsing="false" onAction="#escapeWithLoot" prefHeight="41.0" prefWidth="181.0" text="Confirm Loot">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="upBagButt" layoutX="694.0" layoutY="357.0" mnemonicParsing="false" onAction="#updateBag" text="Update Bag">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </children>

@@ -31,10 +31,11 @@ public class Loot {
     }
 
     public static void main(String[] args) {
-        for (int i=0;i<10;i++){
-            Loot l = new Loot();
-            System.out.println(l.toString());
-        }
+//        for (int i=0;i<10;i++){
+//            Loot l = new Loot();
+//            System.out.println(l.toString());
+//        }
+        System.out.println( Difficulty.NORMAL.getDescription());
     }
 
     public static ArrayList<Loot> generateLoot(){
