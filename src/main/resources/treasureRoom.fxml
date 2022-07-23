@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
@@ -25,14 +26,14 @@
             </ImageView>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="310.0" layoutY="14.0" prefHeight="62.0" prefWidth="280.0" text="Loots Available" textFill="WHITE" underline="true">
+                  <Label layoutX="322.0" layoutY="14.0" prefHeight="62.0" prefWidth="280.0" text="Loots Available" textFill="WHITE" underline="true">
                      <font>
                         <Font size="42.0" />
                      </font>
                   </Label>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="298.0" layoutY="72.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="304.0" />
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="322.0" layoutY="72.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="280.0" />
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="330.0" layoutX="636.0" layoutY="72.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
-                  <GridPane fx:id="lootAvailable" alignment="TOP_CENTER" layoutX="310.0" layoutY="88.0" prefHeight="343.0" prefWidth="280.0">
+                  <GridPane fx:id="lootAvailable" alignment="TOP_CENTER" layoutX="333.0" layoutY="90.0" prefHeight="343.0" prefWidth="258.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
@@ -68,8 +69,8 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="329.0" layoutY="495.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
-                  <Button fx:id="leaveTRButton" focusTraversable="false" layoutX="344.0" layoutY="513.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" text="Leave Treasure Room">
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="342.0" layoutY="496.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
+                  <Button fx:id="leaveTRButton" focusTraversable="false" layoutX="357.0" layoutY="514.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" text="Leave Treasure Room">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -85,6 +86,8 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="45.0" layoutY="72.0" opacity="0.8" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
+                  <TextFlow layoutX="66.0" layoutY="89.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </Pane>
          </children>

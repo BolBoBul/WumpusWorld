@@ -25,7 +25,7 @@ public class CustomGrid {
             CheckBox cb = new CheckBox(myloot.get(s).toString());
             cb.setFont(Font.font(14));
             cb.setFocusTraversable(false);
-            cb.setPadding(new Insets(0,0,0,10));
+            cb.setPadding(new Insets(0,0,0,5));
             cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) {

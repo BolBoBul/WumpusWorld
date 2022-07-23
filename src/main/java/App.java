@@ -1,3 +1,4 @@
+import Tools.ResourcesBrowser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,6 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +34,7 @@ public class App extends Application{
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
             primaryStage.setTitle("Wumpus World");
-            primaryStage.getIcons().add(new Image("ImageLibrary"+File.separator+ "appicon.png"));
+            primaryStage.getIcons().add(new Image("ImageLibrary"+File.separator+"appicon.png"));
             primaryStage.show();
 
         } catch (IOException e) {
