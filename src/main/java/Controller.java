@@ -1,4 +1,5 @@
 import Engine.Difficulty;
+import Engine.Dungeon;
 import Engine.Hero;
 import Engine.Loot;
 import Tools.AlgoLoot;
@@ -16,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -25,10 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,9 +40,10 @@ public class Controller implements Initializable {
     //We can create a new Hero here since we don't use/see his strength on the exploration phase
     private static final Hero myHero = new Hero();
     private static int bagValue, bagWeight;
-    private static final ArrayList <Loot> myLoot = Loot.generateLoot();
+    private static  ArrayList <Loot> myLoot;
     private static Difficulty diff = Difficulty.NORMAL;
     private static int mapSize = 5;
+    public static Dungeon dng=new Dungeon();
 
     private Pane pane;
 
@@ -51,12 +51,14 @@ public class Controller implements Initializable {
     public Scene scene;
     private FXMLLoader loader;
     @FXML
-    ProgressBar abilityPB, staminaPB, luckPB, bagSizePB;
+    ProgressBar dexterityPB, staminaPB, luckPB, bagSizePB;
+    @FXML
+    Label dextLab, stamLab, luckLab;
     private final ObservableList<Difficulty> diffChoice = FXCollections.observableArrayList(Difficulty.PEACEFUL, Difficulty.EASY, Difficulty.NORMAL, Difficulty.HARDCORE, Difficulty.EXTREME);
     @FXML
-    Label solutionLabel=new Label(""),
-            bagCapLabel= new Label("Bag Capacity : "+bagWeight+"/"+ myHero.strength),
-            bagValueLab = new Label("Bag Value: "+bagValue+" ecu(s)");
+    Label solutionLabel=new Label("");
+//            bagCapLabel= new Label("Bag Capacity : "+bagWeight+"/"+ myHero.strength),
+//            bagValueLab = new Label("Bag Value: "+bagValue+" ecu(s)");
     @FXML
     CheckBox solutionButton;
 
@@ -108,12 +110,23 @@ public class Controller implements Initializable {
     private void switchToInGame(ActionEvent event) throws IOException{
         System.out.println("Difficulty chosen: "+diff.toString());
         System.out.println("Size chosen: "+mapSize);
+        dng = new Dungeon(mapSize, diff);
+
         pane = loader.load(getClass().getResource("inGame.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // TO DO
+
+        GridPane mapGrid = ((GridPane)(pane.getChildren().get(0)));
+        CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);
+
+        Pane subPane = ((Pane)(pane.getChildren().get(1)));
+
+
+
+
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
+
     }
 
     @FXML
@@ -121,12 +134,16 @@ public class Controller implements Initializable {
         pane = loader.load(getClass().getResource("treasureRoom.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        newLoot();
+
         GridPane lootAv = ((GridPane) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(3));
         Label bestProfitLabel = ((Label) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(4));
         Label solutionLabel = ((Label) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(6));
         ProgressBar bagSizePB = ((ProgressBar) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(9));
         bagSizePB.setProgress(0);
-
+        TextArea tA = ((TextArea) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(18));
+        tA.setText(setLootRules("lootPhase.txt"));
+        tA.setFont(Font.font("System", 14));
 
         CustomGrid.addAvailableLoot(lootAv, myLoot);
         ArrayList<Loot> myLootCloned = (ArrayList<Loot>) myLoot.clone();
@@ -141,7 +158,43 @@ public class Controller implements Initializable {
         stage.show();
     }
     /*
+    InGame methods
+     */
+    private void initProgBar(Pane subPane){
+        ProgressBar dextPB = (ProgressBar) subPane.getChildren().get(3);
+        ProgressBar stamPB = (ProgressBar) subPane.getChildren().get(4);
+        ProgressBar luckPB = (ProgressBar) subPane.getChildren().get(5);
+        Label dextLab = (Label) subPane.getChildren().get(6);
+        Label stamLab = (Label) subPane.getChildren().get(7);
+        Label luckLab = (Label) subPane.getChildren().get(8);
+
+
+
+        dextPB.setProgress((myHero.dexterity*1.0)/myHero.MAX_DEXTERITY);
+        dextLab.setText(myHero.dexterity+"/"+ myHero.MAX_DEXTERITY);
+        stamPB.setProgress((myHero.stamina*1.0)/myHero.MAX_STAMINA);
+        stamLab.setText(myHero.stamina+"/"+ myHero.MAX_STAMINA);
+        luckPB.setProgress((myHero.luck*1.0)/myHero.MAX_LUCK);
+        luckLab.setText(myHero.luck+"/"+ myHero.MAX_LUCK);
+    }
+    private void updateProgBar(Pane pane){
+        dexterityPB.setProgress((myHero.dexterity*1.0)/myHero.MAX_DEXTERITY);
+        dextLab.setText(myHero.dexterity+"/"+ myHero.MAX_DEXTERITY);
+        staminaPB.setProgress((myHero.stamina*1.0)/myHero.MAX_STAMINA);
+        stamLab.setText(myHero.stamina+"/"+ myHero.MAX_STAMINA);
+        luckPB.setProgress((myHero.luck*1.0)/myHero.MAX_LUCK);
+        luckLab.setText(myHero.luck+"/"+ myHero.MAX_LUCK);
+    }
+
+
+
+    /*
     Treasure Room's related Methods
+     */
+
+    /**
+     * Show the solution of an optimal solution
+     * @param event
      */
     public void seeLootSolution(ActionEvent event) {
         if (solutionButton.isSelected()) {
@@ -149,6 +202,20 @@ public class Controller implements Initializable {
         } else {
             solutionLabel.setVisible(false);
         }
+    }
+
+    public String setLootRules (String fileName){
+        String res="";
+        File file = new File(ResourcesBrowser.RESOURCESPATH+fileName);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                res+=line+'\n';
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return res;
     }
 
     /**
@@ -208,16 +275,16 @@ public class Controller implements Initializable {
         } else {
             double score = Difficulty.getFinalScore(diff, bagValue);
             SimpleDateFormat sdf = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss]");
-            try {
-                File gameScoreText = new File(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt");
-                FileWriter fw = new FileWriter(gameScoreText, true);
+            File gameScoreText = new File(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt");
+
+            try (FileWriter fw = new FileWriter(gameScoreText, true);){
                 System.out.println(gameScoreText.getAbsolutePath());
                 fw.write(sdf.format(new Date())+" Dungeon (Diff="+diff+" & Size="+mapSize+") and score: "
                         +String.format("%.2f", score)+'\n');
-                fw.close();
             } catch (IOException e){
                 e.printStackTrace();
             }
+
             switchToMain(actionEvent);
         }
     }
@@ -240,6 +307,10 @@ public class Controller implements Initializable {
         }
     }
 
+    private static void newLoot(){
+        myLoot=Loot.generateLoot();
+    }
+
 
 
 
@@ -254,7 +325,7 @@ public class Controller implements Initializable {
     private void initProgressBar(){
         ColorAdjust adjust = new ColorAdjust();
         adjust.setHue(0);
-        abilityPB.setEffect(adjust);
+        dexterityPB.setEffect(adjust);
         adjust.setHue(0.941);
         staminaPB.setEffect(adjust);
         adjust.setHue(0.471);
