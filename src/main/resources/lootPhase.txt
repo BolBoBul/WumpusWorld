@@ -1,0 +1,8 @@
+Now begins the looting phase:
+Your objective is to amass the most valuable loot in your bag. Of course, you may not be able to take everything so keep an eye on your bag capacity.
+We will offer you a solution with great value that it is possible to achieve, it is possible that you do better. If you do not find how to reach this solution, we will offer you the possibility to see which objects to select by clicking on "See solution?"
+You can click on "Update Bag" to update the capacity of the bag as well as its value.
+
+Disclaimers:
+(i) When you arrive at this window, you will not see the value of the bag (zero) as well as the capacity of the bag, to see them, click on "Update Bag".
+(ii) Sometimes our solution may exceed the bag capacity by 1 oz.
