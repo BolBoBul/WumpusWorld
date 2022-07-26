@@ -39,10 +39,10 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return lootWorth;
     }
@@ -61,10 +61,10 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return lootWorth;
     }
@@ -83,10 +83,10 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return lootWorth;
     }
@@ -100,11 +100,11 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             selectItems.add(myLootClone.get(0));
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return selectItems;
     }
@@ -117,11 +117,11 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             selectItems.add(myLootClone.get(0));
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return selectItems;
     }
@@ -135,14 +135,31 @@ public class AlgoLoot {
         Loot currLoot = myLootClone.get(0);
 
         while ((currLoot.getWeight()+totalWeight<bag_size) && myLootClone.size()>0){
-            currLoot = myLootClone.get(0);
             lootWorth+=currLoot.getValue();
             totalWeight+= currLoot.getWeight();
             selectItems.add(myLootClone.get(0));
             myLootClone.remove(0);
+            currLoot = myLootClone.get(0);
         }
         return selectItems;
     }
+
+    public static Object[] lootByValue(ArrayList<Loot> myLoot, int bag_size){
+        Object[] valueLoot = new Object[2];
+        //TO DO
+        return valueLoot;
+    }
+    public static Object[] lootByWeight(ArrayList<Loot> myLoot, int bag_size){
+        Object[] weightLoot = new Object[2];
+        //TO DO
+        return weightLoot;
+    }
+    public static Object[] lootByRatio(ArrayList<Loot> myLoot, int bag_size){
+        Object[] ratioLoot = new Object[2];
+        //TO DO
+        return ratioLoot;
+    }
+
 
     /**
      * Return the max value of the different looting algorithms.
@@ -154,6 +171,7 @@ public class AlgoLoot {
 
     public static Object[] getBestLoot(ArrayList<Loot> myLoot, int bag_size){
         Object[] bestLoot = new Object[2];
+        ArrayList<Loot> myLootClone = (ArrayList<Loot>) myLoot.clone();
         int max_Loot=0;
         if (valuePerWeight(myLoot, bag_size)>max_Loot){
             max_Loot=valuePerWeight(myLoot, bag_size);
