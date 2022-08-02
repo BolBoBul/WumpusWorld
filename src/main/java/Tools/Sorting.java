@@ -68,11 +68,11 @@ public class Sorting {
             @Override
             public int compare(Loot l1, Loot l2) {
 //                System.out.println(l2.getRatio()+" "+l1.getRatio());
-                if (l2.getRatio() < l1.getRatio()){
-                    return -1;
-                }
                 if (l2.getRatio() > l1.getRatio()){
                     return 1;
+                }
+                if (l2.getRatio() < l1.getRatio()){
+                    return -1;
                 }
                 if (l2.getRatio() == l1.getRatio()) {
                     if (l2.getWeight() > l1.getWeight()) {
@@ -81,7 +81,6 @@ public class Sorting {
                     if (l2.getWeight() < l1.getWeight()) {
                         return -1;
                     }
-                    return 0;
                 }
                 return 0;
             }

@@ -4,19 +4,26 @@ import Tools.Position;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
-
 public class Dungeon {
 
+    public static ArrayList<Cell> unrevealedCells = new ArrayList<>();
     private final Difficulty DEFAULT_DIFFICULTY = Difficulty.NORMAL;
     private Difficulty difficulty;
+    private int size;
     private static Random rdm = new Random();
     public BoardGame bg;
     public static ArrayList<Cell> discoveredCell = new ArrayList<>();
 
     public static void main(String[] args) {
-        Dungeon dng = new Dungeon(10, Difficulty.NORMAL);
-//        generateDungeon(dng);
+        Dungeon dng = new Dungeon(5, Difficulty.NORMAL);
+        generateDungeon(dng);
+
+        for (int y = 0; y< dng.size;y++){
+            for (int x=0;x< dng.size;x++){
+                System.out.print(dng.bg.grid[y][x].getCT());
+            }
+            System.out.println("");
+        }
 //        System.out.println(dng.locateHero().toString());
 //        Scanner userInput = new Scanner(System.in);
 //        while(true) {
@@ -32,18 +39,22 @@ public class Dungeon {
     public Dungeon(){
         difficulty=DEFAULT_DIFFICULTY;
         bg=new BoardGame();
+        size=this.bg.getSize();
     }
     public Dungeon(int size){
         difficulty=DEFAULT_DIFFICULTY;
         bg=new BoardGame(size);
+        this.size=size;
     }
     public Dungeon(int size, Difficulty difficulty){
         this.difficulty=difficulty;
         bg=new BoardGame(size);
+        this.size=size;
     }
     public Dungeon(Difficulty difficulty, int size){
         this.difficulty=difficulty;
         bg = new BoardGame(size);
+        this.size=size;
         }
 
     public Cell setCellEvent() {
@@ -60,6 +71,7 @@ public class Dungeon {
                 } else {
                     c = new Cell(CellTypes.TRAP);
                 }
+                return c;
             case EASY:
                 if (rng < Difficulty.EASY.getPerEmpty()) {
                     c = new Cell(CellTypes.EMPTY);
@@ -91,16 +103,75 @@ public class Dungeon {
             case EXTREME:
                 if (rng < Difficulty.EXTREME.getPerEmpty()) {
                     c = new Cell(CellTypes.EMPTY);
-                } else if (rng < Difficulty.EXTREME.getPerEmpty() + Difficulty.EXTREME.getPerMon()) {
+                } else if (rng < (Difficulty.EXTREME.getPerEmpty() + Difficulty.EXTREME.getPerMon())) {
                     c = new Cell(CellTypes.MONSTER);
                 } else {
                     c = new Cell(CellTypes.TRAP);
                 }
+                return c;
             default:{
                 return null;
             }
         }
     }
+
+//    public CellTypes setCellTypeEvent() {
+//        Difficulty d = this.difficulty;
+//        int rng = rdm.nextInt(100);
+//        CellTypes ct = CellTypes.EMPTY;
+//        switch (d) {
+//            case PEACEFUL:
+//                if (rng < Difficulty.PEACEFUL.getPerEmpty()) {
+//                   ct = new Cell(CellTypes.EMPTY);
+////                    c.pos=new Position(x, y);
+//                } else if (rng < (Difficulty.PEACEFUL.getPerEmpty() + Difficulty.PEACEFUL.getPerMon())) {
+//                   ct = new Cell(CellTypes.MONSTER);
+//                } else {
+//                   ct = new Cell(CellTypes.TRAP);
+//                }
+//                return ct;
+//            case EASY:
+//                if (rng < Difficulty.EASY.getPerEmpty()) {
+//                   ct = new Cell(CellTypes.EMPTY);
+////                    c.pos=new Position(x, y);
+//                } else if (rng < (Difficulty.EASY.getPerEmpty() + Difficulty.EASY.getPerMon())) {
+//                    ct = new Cell(CellTypes.MONSTER);
+//                } else {
+//                   ct = new Cell(CellTypes.TRAP);
+//                }
+//                return ct;
+//            case NORMAL:
+//                if (rng < Difficulty.NORMAL.getPerEmpty()) {
+//                   ct = new Cell(CellTypes.EMPTY);
+//                } else if (rng < Difficulty.NORMAL.getPerEmpty() + Difficulty.NORMAL.getPerMon()) {
+//                   ct = new Cell(CellTypes.MONSTER);
+//                } else {
+//                   ct = new Cell(CellTypes.TRAP);
+//                }
+//                return ct;
+//            case HARDCORE:
+//                if (rng < Difficulty.HARDCORE.getPerEmpty()) {
+//                   ct = new Cell(CellTypes.EMPTY);
+//                } else if (rng < Difficulty.HARDCORE.getPerEmpty() + Difficulty.HARDCORE.getPerMon()) {
+//                   ct = new Cell(CellTypes.MONSTER);
+//                } else {
+//                   ct = new Cell(CellTypes.TRAP);
+//                }
+//                return ct;
+//            case EXTREME:
+//                if (rng < Difficulty.EXTREME.getPerEmpty()) {
+//                   ct = new Cell(CellTypes.EMPTY);
+//                } else if (rng < Difficulty.EXTREME.getPerEmpty() + Difficulty.EXTREME.getPerMon()) {
+//                   ct = new Cell(CellTypes.MONSTER);
+//                } else {
+//                   ct = new Cell(CellTypes.TRAP);
+//                }
+//                return ct;
+//            default:{
+//                return null;
+//            }
+//        }
+//    }
 
 //    public void setCellEvent(Difficulty diff){
 //        Position treasPos = initTreasureLoc(this);
@@ -132,28 +203,40 @@ public class Dungeon {
                     dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
                 if (x==treas_x && y==treas_y)
                     dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.TREASURE);
-                System.out.print(dng.bg.grid[y][x].toString());
+//                System.out.print(dng.bg.grid[y][x].toString());
             }
-            System.out.println("");
+//            System.out.print('\n');
+        }
+    }
+    public  void generateDungeon(){
+        Position treasPos = initTreasureLoc(this);
+        int treas_x = treasPos.getX();
+        int treas_y = treasPos.getY();
+
+        for (int y=0;y<this.bg.size;y++){
+            for (int x=0;x<this.bg.size;x++){
+                this.bg.grid[y][x]=this.setCellEvent();
+//                this.bg.grid[y][x].pos=new Position(x, y);
+                if (x==0 && y==0) {
+                    this.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
+                    this.bg.grid[y][x].prev_ct=CellTypes.EMPTY;
+                }
+                if (x==treas_x && y==treas_y){
+                    this.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.TREASURE);
+                    unrevealedCells.add(this.bg.grid[y][x]);
+                }
+            }
         }
     }
 
     public Position locateHero() {
         Position heroPos = new Position(0,0);
-        int nbrM=0, nbrT=0, nbrE=0;
         for (int y = 0; y < this.bg.size; y++) {
             for (int x = 0; x < this.bg.size; x++) {
                 if (this.bg.grid[y][x].getCT()==CellTypes.HERO)
                     heroPos.setPos(x, y);
-                if (this.bg.grid[y][x].getCT()==CellTypes.MONSTER)
-                    nbrM+=1;
-                if (this.bg.grid[y][x].getCT()==CellTypes.TRAP)
-                    nbrT+=1;
-                if (this.bg.grid[y][x].getCT()==CellTypes.EMPTY)
-                    nbrE+=1;
             }
         }
-        System.out.println("Nbr of empty: "+nbrE+", nbr of Monster: "+nbrM+", nbr trap: "+nbrT);
         return heroPos;
     }
     public static Position initTreasureLoc(Dungeon dng){
@@ -165,21 +248,11 @@ public class Dungeon {
         }
         return new Position(treas_x, treas_y);
     }
-
-    /*
-    A faire, recréer une BoardGame
-     */
-    public void setSize(int size){
-
-    }
-    /*
-    A faire, recréer une BoardGame de la diff
-     */
-    public void setDifficulty(Difficulty d) throws Exception {
-
-    }
     public Difficulty getDifficulty(){
         return this.difficulty;
+    }
+    public int getSize(){
+        return this.bg.getSize();
     }
 
     @Override

@@ -21,17 +21,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-        <ChoiceBox layoutX="375.0" layoutY="214.0" prefWidth="150.0" />
-        <Button fx:id="backButton" layoutX="341.0" layoutY="521.0" mnemonicParsing="false" onAction="#switchToMain" prefHeight="36.0" prefWidth="217.0" text="Back To Main Menu">
+        <ChoiceBox focusTraversable="false" layoutX="375.0" layoutY="214.0" prefWidth="150.0" />
+        <Button fx:id="backButton" focusTraversable="false" layoutX="341.0" layoutY="521.0" mnemonicParsing="false" onAction="#switchToMain" prefHeight="36.0" prefWidth="217.0" text="Back To Main Menu">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
-      <Button fx:id="startButton" layoutX="341.0" layoutY="470.0" mnemonicParsing="false" onAction="#switchToInGame" prefHeight="36.0" prefWidth="217.0" text="Start the Exploration !">
+      <Button fx:id="startButton" focusTraversable="false" layoutX="341.0" layoutY="470.0" mnemonicParsing="false" onAction="#switchToInGame" prefHeight="36.0" prefWidth="217.0" text="Start the Exploration !">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Button>
-      <TextArea layoutX="649.0" layoutY="14.0" prefHeight="510.0" prefWidth="237.0" text="● PEACEFUL : &#10;   90% of empty rooms,&#10;   0% to bump into a monster,&#10;   10% to fall on a trap.&#10;&#10;● EASY :&#10;   85% of empty rooms,&#10;   10% to bump into a monster,&#10;   5% to fall on a trap.&#10;&#10;● NORMAL :&#10;   70% of empty rooms,&#10;   15% to bump into a monster,&#10;   15% to fall on a trap.&#10;&#10;● HARDCORE :&#10;   50% of empty rooms,&#10;   20% to bump into a monster,&#10;   30% to fall on a trap.&#10;&#10;● EXTREME :&#10;   30% of empty rooms,&#10;   25% to bump into a monster,&#10;   45% to fall on a trap.&#10;">
+      <TextArea editable="false" focusTraversable="false" layoutX="649.0" layoutY="14.0" prefHeight="510.0" prefWidth="237.0" text="● PEACEFUL : &#10;   90% of empty rooms,&#10;   0% to bump into a monster,&#10;   10% to fall on a trap.&#10;&#10;● EASY :&#10;   85% of empty rooms,&#10;   10% to bump into a monster,&#10;   5% to fall on a trap.&#10;&#10;● NORMAL :&#10;   70% of empty rooms,&#10;   15% to bump into a monster,&#10;   15% to fall on a trap.&#10;&#10;● HARDCORE :&#10;   50% of empty rooms,&#10;   20% to bump into a monster,&#10;   30% to fall on a trap.&#10;&#10;● EXTREME :&#10;   30% of empty rooms,&#10;   25% to bump into a monster,&#10;   45% to fall on a trap.&#10;">
          <font>
             <Font size="14.0" />
          </font></TextArea>

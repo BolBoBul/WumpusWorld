@@ -10,16 +10,17 @@ public class Hero extends Entity{
         System.out.println(lia.fightMonster(m1));
     }
     private static Random rdm = new Random();
-    public int luck, strength, stealth;
-    private final int MAX_DEXTERITY, MAX_STAMINA, MAX_LUCK;
+    public int luck, strength, stealth, agility;
+    public final int MAX_DEXTERITY, MAX_STAMINA, MAX_LUCK;
 
     /**
      * A Hero has several stats, such as dexterity, stamina, luck, strength and stealth.
-     * The dexterity represent the hero's ability to face monsters.
-     * The stamina represent the hero's life.
-     * The luck represent the hero's ability to escape from traps.
-     * The strength represent the hero's ability to carry item (bag capacity).
-     * The stealth represent the hero's ability to avoid a fight when entering a room with a monster.
+     * The dexterity represents the hero's ability to face monsters.
+     * The stamina represents the hero's life.
+     * The luck represents the hero's ability to escape from traps.
+     * The strength represents the hero's ability to carry items.
+     * The stealth represents the hero's ability to avoid a fight when entering a room with a monster.
+     * The ability represents the hero's ability to avoid trap.
      */
     public Hero(){
         this.dexterity = (rdm.nextInt(6)+1) + 6;
@@ -29,8 +30,10 @@ public class Hero extends Entity{
         luck = (rdm.nextInt(6)+1) + 6;
         MAX_LUCK=this.luck;
         strength = (rdm.nextInt(11)+2) + 6;
-//        stealth = (rdm.nextInt(16)+3) + 10;
+        stealth = rdm.nextInt(13)+8;
+        agility = rdm.nextInt(13)+8;
     }
+
     /*
     Actions
      */
@@ -39,13 +42,19 @@ public class Hero extends Entity{
         while(this.stamina>0 && m.stamina>0){
             hScore = this.dexterity + (rdm.nextInt(11)+2);
             mScore = m.dexterity + (rdm.nextInt(11)+2);
+            String log=new String();
             // Hero has a bigger score than monster
-            if (hScore>mScore)
+            if (hScore>mScore) {
+                log = "You have inflicted 2 damages to the monster";
                 m.stamina-=2;
+            }
             // Monster has a bigger score than hero
-            if (hScore<mScore)
+            if (hScore<mScore) {
+                log = "You took 2 damages from the monster";
                 this.stamina-=2;
-            TimeUnit.MILLISECONDS.sleep(350);
+            }
+            System.out.println(log);
+            TimeUnit.MILLISECONDS.sleep(1500);
         }
         if (this.stamina>=0){
             return true;
@@ -62,10 +71,25 @@ public class Hero extends Entity{
         }
     }
 
+    /**
+     * Roll a D20 (20-side dice). If the result is equal or lower to the hero stealth,
+     *  he sneaks into the room without alerting the room.
+     * @return True if the roll is a success, false otherwise.
+     */
+    public boolean stealthTest(){
+        return (this.stealth >= (rdm.nextInt(20)+1));
+    }
+    /**
+     * Roll a D20 (20-side dice). If the result is equal or lower to the hero agility,
+     *  he manages to avoid the trap.
+     * @return True if the roll is a success, false otherwise.
+     */
+    public boolean agilityTest(){
+        return (this.agility >=(rdm.nextInt(20)+1));
+    }
+
     /*
     Movements
      */
-    public void moveLeft(){
 
-    }
 }

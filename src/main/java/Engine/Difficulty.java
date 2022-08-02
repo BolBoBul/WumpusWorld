@@ -55,20 +55,23 @@ public enum Difficulty {
         return str;
     }
     public static double getFinalScore(Difficulty d, int bagValue){
-        double score;
+        double score=0.0;
         switch (d){
-            case PEACEFUL:
-                //Nothing to do, score will always be 0.
             case EASY:
                 score = d.getScoreMult()*bagValue;
+                break;
             case NORMAL:
                 score = d.getScoreMult()*bagValue;
+                break;
             case HARDCORE:
                 score = d.getScoreMult()*bagValue;
+                break;
             case EXTREME:
                 score = d.getScoreMult()*bagValue;
+                break;
             default:
                 score = bagValue;
+                break;
         }
         return score;
     }

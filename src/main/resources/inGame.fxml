@@ -5,90 +5,83 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="600.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-         </rowConstraints>
-      </GridPane>
-      <Pane layoutX="635.0" layoutY="14.0" prefHeight="164.0" prefWidth="250.0">
+      <GridPane gridLinesVisible="true" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="572.0" />
+      <Pane layoutX="605.0" layoutY="14.0" prefHeight="179.0" prefWidth="260.0">
          <children>
-            <Label fx:id="dexterityLabel" mouseTransparent="true" text="Dexterity :">
+            <Label layoutX="8.0" mouseTransparent="true" text="Dexterity :">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="staminaLabel" layoutX="-1.0" layoutY="53.0" mouseTransparent="true" text="Stamina :">
+            <Label layoutX="8.0" layoutY="44.0" mouseTransparent="true" text="Stamina :">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="luckLabel" layoutY="106.0" mouseTransparent="true" text="Luck :">
+            <Label layoutX="8.0" layoutY="94.0" mouseTransparent="true" text="Luck :">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="abilityPB" layoutY="35.0" mouseTransparent="true" prefHeight="18.0" prefWidth="250.0">
+            <ProgressBar fx:id="dexterityPB" layoutY="26.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
                <effect>
                   <ColorAdjust contrast="1.0" hue="1.0" />
                </effect></ProgressBar>
-            <ProgressBar fx:id="staminaPB" layoutY="88.0" mouseTransparent="true" prefHeight="18.0" prefWidth="250.0">
+            <ProgressBar fx:id="staminaPB" layoutY="73.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
                <effect>
                   <ColorAdjust contrast="1.0" />
                </effect></ProgressBar>
-            <ProgressBar fx:id="luckPB" layoutY="141.0" mouseTransparent="true" prefHeight="18.0" prefWidth="250.0">
+            <ProgressBar fx:id="luckPB" layoutY="126.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
                <effect>
                   <ColorAdjust contrast="1.0" hue="-0.34" />
                </effect></ProgressBar>
-            <Label layoutX="157.0" text="24 / 24" wrapText="true">
+            <Label fx:id="dextLab" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="163.0" mouseTransparent="true" prefHeight="35.0" prefWidth="90.0" text="24 / 24" wrapText="true">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="157.0" layoutY="53.0" text="24 / 24" wrapText="true">
+            <Label fx:id="stamLab" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="163.0" layoutY="42.0" mouseTransparent="true" prefHeight="35.0" prefWidth="90.0" text="24 / 24" wrapText="true">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="157.0" layoutY="106.0" text="24 / 24" wrapText="true">
+            <Label fx:id="luckLab" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="163.0" layoutY="91.0" mouseTransparent="true" prefHeight="35.0" prefWidth="90.0" text="24 / 24" wrapText="true">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="stealthLab" layoutX="8.0" layoutY="144.0" text="Stealth : XX">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="agilityLab" alignment="CENTER_RIGHT" layoutX="144.0" layoutY="144.0" prefHeight="30.0" prefWidth="109.0" text="Agility : XX">
+               <font>
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Polygon fill="#707e8c" layoutX="760.0" layoutY="247.0" opacity="0.7" points="-26.0, 16.0, 26.0, 16.0, 0.0, -36.00001525878906" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Polygon fill="#707e8c" layoutX="699.0" layoutY="310.0" opacity="0.7" points="25.0, -36.0, 25.0, 16.0, -27.0, -10.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Polygon fill="#707e8c" layoutX="761.0" layoutY="337.0" opacity="0.7" points="-27.0, 0.0, 25.0, 0.0, -1.0, 52.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Polygon fill="#707e8c" layoutX="823.0" layoutY="313.0" opacity="0.7" points="-27.0, 13.0, 25.0, -13.0, -27.0, -39.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Circle fill="#707e8c" layoutX="760.0" layoutY="300.0" opacity="0.7" radius="27.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Button fx:id="upButton" layoutX="734.0" layoutY="211.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="leftButton" layoutX="672.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="downButton" layoutX="734.0" layoutY="336.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="rightButton" layoutX="796.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="menuButton" layoutX="734.0" layoutY="274.0" mnemonicParsing="false" onAction="#switchToMain" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <TextArea fx:id="eventLogArea" editable="false" focusTraversable="false" layoutX="635.0" layoutY="420.0" prefHeight="164.0" prefWidth="250.0" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextArea>
+      <Polygon fill="#707e8c" layoutX="735.0" layoutY="247.0" opacity="0.7" points="-26.0, 16.0, 26.0, 16.0, 0.0, -36.00001525878906" stroke="#2e2e2e" strokeWidth="4.0" />
+      <Polygon fill="#707e8c" layoutX="674.0" layoutY="310.0" opacity="0.7" points="25.0, -36.0, 25.0, 16.0, -27.0, -10.0" stroke="#2e2e2e" strokeWidth="4.0" />
+      <Polygon fill="#707e8c" layoutX="736.0" layoutY="337.0" opacity="0.7" points="-27.0, 0.0, 25.0, 0.0, -1.0, 52.0" stroke="#2e2e2e" strokeWidth="4.0" />
+      <Polygon fill="#707e8c" layoutX="798.0" layoutY="313.0" opacity="0.7" points="-27.0, 13.0, 25.0, -13.0, -27.0, -39.0" stroke="#2e2e2e" strokeWidth="4.0" />
+      <Circle fill="#707e8c" layoutX="735.0" layoutY="300.0" opacity="0.7" radius="27.0" stroke="#2e2e2e" strokeWidth="4.0" />
+      <Button fx:id="upButton" layoutX="709.0" layoutY="211.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <Button fx:id="leftButton" layoutX="647.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <Button fx:id="downButton" layoutX="709.0" layoutY="336.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <Button fx:id="rightButton" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <Button fx:id="menuButton" layoutX="709.0" layoutY="274.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <TextArea fx:id="eventLogArea" editable="false" focusTraversable="false" layoutX="605.0" layoutY="420.0" mouseTransparent="true" prefHeight="164.0" prefWidth="280.0" wrapText="true" />
+      <Button fx:id="showMapButt" layoutX="807.0" layoutY="388.0" mnemonicParsing="false" onAction="#revealMap" text="Reveal Map" />
+      <Button layoutX="757.0" layoutY="388.0" mnemonicParsing="false" onAction="#generateDialog" text="Gen Dialog" />
    </children>
 </Pane>

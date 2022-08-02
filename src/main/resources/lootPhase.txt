@@ -5,4 +5,3 @@ You can click on "Update Bag" to update the capacity of the bag as well as its v
 
 Disclaimers:
 (i) When you arrive at this window, you will not see the value of the bag (zero) as well as the capacity of the bag, to see them, click on "Update Bag".
-(ii) Sometimes our solution may exceed the bag capacity by 1 oz.

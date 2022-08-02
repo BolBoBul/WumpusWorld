@@ -9,7 +9,7 @@ public enum CellTypes {
 
     ;
     private String ID;
-    private CellTypes(String ID){
+    CellTypes(String ID){
         this.ID=ID;
     }
     private String getCellTypes(){

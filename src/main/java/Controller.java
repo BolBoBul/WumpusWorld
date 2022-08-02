@@ -1,7 +1,5 @@
-import Engine.Difficulty;
-import Engine.Dungeon;
-import Engine.Hero;
-import Engine.Loot;
+import Engine.*;
+import Engine.Cell;
 import Tools.AlgoLoot;
 import Tools.CustomGrid;
 import Tools.ResourcesBrowser;
@@ -19,24 +17,55 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static java.lang.String.valueOf;
 
 public class Controller implements Initializable {
 
+    private static ArrayList<String> STEALTH_FAIL=new ArrayList<>(),
+            STEALTH_SUCCESS=new ArrayList<>(),
+            AGILITY_FAIL=new ArrayList<>(),
+            AGILITY_SUCCESS=new ArrayList<>();
+    private static HashMap<String, Image> strToIm = new HashMap<>();
+    static {
+        STEALTH_FAIL.add("*BOOM* You tripped over a rock and drop something, you woke up the monster.");
+        STEALTH_FAIL.add("As you walk into the dark room, you can feel a breeze. The problem? This breeze smells like corpse.");
+        STEALTH_FAIL.add("As you push the old door, it starts to emit a shrill noise... You start to hear grunts coming from behind the door.");
+        // "Prepare to fight !"
+        STEALTH_SUCCESS.add("You tiptoe along the walls and you manage to cross the room without waking the creature.");
+        STEALTH_SUCCESS.add("As you enter the room, you see a creature staring at you. Fortunately, the creature seems to be blind.");
+
+        AGILITY_FAIL.add("As you enter the room, a swarm of bats swoops down on you, causing you to lose your balance and fall into a pit.");
+        AGILITY_FAIL.add("As you walk into the room, a slab sinks under the weight of your foot, it's a trap!");
+        AGILITY_SUCCESS.add("You notice a trip wire on the ground, you step over it.");
+
+        strToIm.put("monster", new Image("ImageLibrary"+File.separator+"monsterC.png"));
+        strToIm.put("trap", new Image("ImageLibrary"+File.separator+"trapC.png"));
+        strToIm.put("hero", new Image("ImageLibrary"+File.separator+"heroC.png"));
+        strToIm.put("treasure", new Image("ImageLibrary"+File.separator+"treasureC.png"));
+        strToIm.put("empty", new Image("ImageLibrary"+File.separator+"nullC.png"));
+
+        Image monster = new Image("ImageLibrary"+File.separator+"monsterC.png");
+        Image trap = new Image("ImageLibrary"+File.separator+"trapC.png");
+        Image hero = new Image("ImageLibrary"+File.separator+"heroC.png");
+        Image treasure = new Image("ImageLibrary"+File.separator+"treasureC.png");
+        Image empty = new Image("ImageLibrary"+File.separator+"nullC.png");
+    }
     //We can create a new Hero here since we don't use/see his strength on the exploration phase
     private static final Hero myHero = new Hero();
     private static int bagValue, bagWeight;
@@ -52,13 +81,10 @@ public class Controller implements Initializable {
     private FXMLLoader loader;
     @FXML
     ProgressBar dexterityPB, staminaPB, luckPB, bagSizePB;
-    @FXML
-    Label dextLab, stamLab, luckLab;
+
     private final ObservableList<Difficulty> diffChoice = FXCollections.observableArrayList(Difficulty.PEACEFUL, Difficulty.EASY, Difficulty.NORMAL, Difficulty.HARDCORE, Difficulty.EXTREME);
     @FXML
-    Label solutionLabel=new Label("");
-//            bagCapLabel= new Label("Bag Capacity : "+bagWeight+"/"+ myHero.strength),
-//            bagValueLab = new Label("Bag Value: "+bagValue+" ecu(s)");
+    Label solutionLabel=new Label(""), stealthLab = new Label("") , agilityLab = new Label("");
     @FXML
     CheckBox solutionButton;
 
@@ -75,9 +101,8 @@ public class Controller implements Initializable {
     }
 
     /**
-     *
-     * The listener were taken from http://www.java2s.com/Code/Java/JavaFX/Slidervaluepropertychangelistener.htm(Slider),
-     * and from https://stackoverflow.com/questions/14522680/javafx-choicebox-events (ChoiceBox)
+     * The listeners were taken from https://stackoverflow.com/a/14523434 (ChoiceBox) and from
+     * http://www.java2s.com/Code/Java/JavaFX/Slidervaluepropertychangelistener.htm (Slider)
      * @param event
      * @throws IOException
      */
@@ -88,6 +113,7 @@ public class Controller implements Initializable {
         ChoiceBox<Difficulty> diffChoiceBox = (ChoiceBox<Difficulty>) (pane.getChildren().get(3));
         Slider mapSizeSlider = (Slider) (pane.getChildren().get(1));
         diffChoiceBox.setItems(diffChoice);
+        diffChoiceBox.setValue(Difficulty.NORMAL);
 
         diffChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -108,20 +134,21 @@ public class Controller implements Initializable {
     }
     @FXML
     private void switchToInGame(ActionEvent event) throws IOException{
-        System.out.println("Difficulty chosen: "+diff.toString());
-        System.out.println("Size chosen: "+mapSize);
+        //We create a new Dungeon every time we enter the exploration phase
         dng = new Dungeon(mapSize, diff);
 
         pane = loader.load(getClass().getResource("inGame.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stealthLab.setText(valueOf(myHero.stealth));
+        agilityLab.setText(valueOf(myHero.agility));
 
         GridPane mapGrid = ((GridPane)(pane.getChildren().get(0)));
         CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);
 
         Pane subPane = ((Pane)(pane.getChildren().get(1)));
+        updateProgBar(subPane);
 
-
-
+//        myHero.fightMonster(new Monster());
 
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -142,16 +169,32 @@ public class Controller implements Initializable {
         ProgressBar bagSizePB = ((ProgressBar) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(9));
         bagSizePB.setProgress(0);
         TextArea tA = ((TextArea) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(18));
-        tA.setText(setLootRules("lootPhase.txt"));
+        tA.setText(printLootRules("lootPhase.txt"));
         tA.setFont(Font.font("System", 14));
 
         CustomGrid.addAvailableLoot(lootAv, myLoot);
         ArrayList<Loot> myLootCloned = (ArrayList<Loot>) myLoot.clone();
-        bestProfitLabel.setText("A good potential looting value is "+ AlgoLoot.getBestLoot(myLootCloned, myHero.strength)[0]);
+        bestProfitLabel.setText("A good potential looting value is "+ AlgoLoot.getBestLoot2(myLootCloned, myHero.strength)[0]);
         bestProfitLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
         bestProfitLabel.setWrapText(true);
-        solutionLabel.setText("To have a nice treasure, you must take :" + AlgoLoot.getBestLoot(myLootCloned, myHero.strength)[1]);
+        solutionLabel.setText("To have a nice treasure, you must take :" + AlgoLoot.getBestLoot2(myLootCloned, myHero.strength)[1]);
         solutionLabel.setFont(Font.font("System", 14));
+
+//        updateBag(event);
+
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void switchToGameHistory(ActionEvent actionEvent) throws IOException {
+        pane = loader.load(getClass().getResource("gameHistory.fxml"));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        TextArea tA = (TextArea) pane.getChildren().get(1);
+        tA.setText(printHist());
+        tA.setFont(Font.font("System", 12));
+        tA.setWrapText(true);
 
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -160,7 +203,40 @@ public class Controller implements Initializable {
     /*
     InGame methods
      */
-    private void initProgBar(Pane subPane){
+
+//    private void printEventLog(String event){
+//        TextArea tA = (TextArea) ((Pane) ((Button) actionEvent.getSource()).getParent()).getChildren().get(12);
+//        tA.appendText("Hello You juste clicked the button.\n");
+//    }
+
+//    private void updateTextures(GridPane gp){
+//        for (int y=0; y<mapSize;y++){
+//            for (int x=0; x<mapSize;x++){
+//                CellTypes ct = dng.bg.grid[y][x].getCT();
+//                ImageView iv = (ImageView) gp.getChildren().get(y*mapSize+x);
+//                switch (ct){
+//                    case HERO:
+//                        iv.setImage();
+//                        break;
+//                    case TRAP:
+//                        iv.setImage();
+//                        break;
+//                    case MONSTER:
+//                        iv.setImage();
+//                        break;
+//                    case TREASURE:
+//                        iv.setImage();
+//                        break;
+//                    default:
+//                        iv.setImage();
+//                        break;
+//                }
+//            }
+//
+//        }
+//    }
+
+    private void updateProgBar(Pane subPane){
         ProgressBar dextPB = (ProgressBar) subPane.getChildren().get(3);
         ProgressBar stamPB = (ProgressBar) subPane.getChildren().get(4);
         ProgressBar luckPB = (ProgressBar) subPane.getChildren().get(5);
@@ -168,25 +244,74 @@ public class Controller implements Initializable {
         Label stamLab = (Label) subPane.getChildren().get(7);
         Label luckLab = (Label) subPane.getChildren().get(8);
 
-
-
         dextPB.setProgress((myHero.dexterity*1.0)/myHero.MAX_DEXTERITY);
-        dextLab.setText(myHero.dexterity+"/"+ myHero.MAX_DEXTERITY);
         stamPB.setProgress((myHero.stamina*1.0)/myHero.MAX_STAMINA);
-        stamLab.setText(myHero.stamina+"/"+ myHero.MAX_STAMINA);
         luckPB.setProgress((myHero.luck*1.0)/myHero.MAX_LUCK);
-        luckLab.setText(myHero.luck+"/"+ myHero.MAX_LUCK);
-    }
-    private void updateProgBar(Pane pane){
-        dexterityPB.setProgress((myHero.dexterity*1.0)/myHero.MAX_DEXTERITY);
         dextLab.setText(myHero.dexterity+"/"+ myHero.MAX_DEXTERITY);
-        staminaPB.setProgress((myHero.stamina*1.0)/myHero.MAX_STAMINA);
         stamLab.setText(myHero.stamina+"/"+ myHero.MAX_STAMINA);
-        luckPB.setProgress((myHero.luck*1.0)/myHero.MAX_LUCK);
         luckLab.setText(myHero.luck+"/"+ myHero.MAX_LUCK);
+        dextLab.setTextAlignment(TextAlignment.RIGHT);
+        stamLab.setTextAlignment(TextAlignment.RIGHT);
+        luckLab.setTextAlignment(TextAlignment.RIGHT);
+    }
+//    private void updateProgBar(Pane pane){
+//        dexterityPB.setProgress((myHero.dexterity*1.0)/myHero.MAX_DEXTERITY);
+//        dextLab.setText(myHero.dexterity+"/"+ myHero.MAX_DEXTERITY);
+//        staminaPB.setProgress((myHero.stamina*1.0)/myHero.MAX_STAMINA);
+//        stamLab.setText(myHero.stamina+"/"+ myHero.MAX_STAMINA);
+//        luckPB.setProgress((myHero.luck*1.0)/myHero.MAX_LUCK);
+//        luckLab.setText(myHero.luck+"/"+ myHero.MAX_LUCK);
+//    }
+
+    /**
+     * Ask the user if he really wants to go quit the exploration and go back to the main menu.
+     * @param actionEvent
+     * @throws IOException
+     */
+    @FXML
+    private void warnIG(ActionEvent actionEvent) throws IOException {
+        Alert warnTR = new Alert(Alert.AlertType.CONFIRMATION);
+        Text alertText = new Text("Are you sure you want to leave the game in progress ? If you do, you won't be able to continue it later");
+        alertText.setWrappingWidth(270);
+        warnTR.getDialogPane().setContent(alertText);
+        warnTR.setTitle("Leave Game ?");
+        Optional<ButtonType> result = warnTR.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            pane = loader.load(getClass().getResource("mainMenu.fxml"));
+            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            scene = new Scene(pane);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
+    /**
+     * Remove the fog of war and then, reveal the content of every undiscovered cell.
+     * @param actionEvent
+     */
+    @FXML
+    private void revealMap(ActionEvent actionEvent){
+//        for (Cell c : Dungeon.unrevealedCells){
+//            c.hiddenState=false;
+//        }
+//        // TO DO : UPDATE TEXTURES
+    }
 
+    @FXML
+    private void generateDialog(ActionEvent actionEvent){
+        ArrayList<ArrayList> all = new ArrayList<>();
+        all.add(STEALTH_FAIL);
+        all.add(STEALTH_SUCCESS);
+        all.add(AGILITY_FAIL);
+        all.add(AGILITY_SUCCESS);
+
+        pane = (Pane) ((Button) actionEvent.getSource()).getParent();
+        TextArea tA = (TextArea) pane.getChildren().get(12);
+        int index = new Random().nextInt(all.size());
+        int subIndex = new Random().nextInt(all.get(index).size());
+        String dialog = (String) all.get(index).get(subIndex)+'\n';
+        tA.appendText(dialog);
+    }
 
     /*
     Treasure Room's related Methods
@@ -197,14 +322,15 @@ public class Controller implements Initializable {
      * @param event
      */
     public void seeLootSolution(ActionEvent event) {
-        if (solutionButton.isSelected()) {
-            solutionLabel.setVisible(true);
-        } else {
-            solutionLabel.setVisible(false);
-        }
+        solutionLabel.setVisible(solutionButton.isSelected());
     }
 
-    public String setLootRules (String fileName){
+    /**
+     *
+     * @param fileName the name of the file to print.
+     * @return a String containing the rules of the Looting Phase
+     */
+    public String printLootRules(String fileName){
         String res="";
         File file = new File(ResourcesBrowser.RESOURCESPATH+fileName);
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -258,18 +384,18 @@ public class Controller implements Initializable {
         }
 
         bagSizePB.setProgress(wOverS);
-//        bagCapacityLab.setText("Bag Capacity : "+(myHero.strength-bagWeight)+"/"+ myHero.strength);
-        bagCapacityLab.setText("Bag Capacity : "+(bagWeight)+"/"+ myHero.strength);
+        bagCapacityLab.setText("Bag Weight : "+(bagWeight)+"/"+ myHero.strength);
         bagValueLab.setText("Bag Value: "+bagValue+" ecu(s)");
     }
 
     public void escapeWithLoot(ActionEvent actionEvent) throws IOException {
+        updateBag(actionEvent);
         if (bagWeight> myHero.strength){
             Alert warnTR = new Alert(Alert.AlertType.ERROR);
             Text alertText = new Text("You can't lift your bag. Try to remove some item(s).");
             alertText.setWrappingWidth(270);
             warnTR.getDialogPane().setContent(alertText);
-            warnTR.setHeaderText("Your bag is to heavy");
+            warnTR.setHeaderText("Your bag is too heavy");
             warnTR.setTitle("Error");
             Optional<ButtonType> result = warnTR.showAndWait();
         } else {
@@ -277,20 +403,25 @@ public class Controller implements Initializable {
             SimpleDateFormat sdf = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss]");
             File gameScoreText = new File(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt");
 
-            try (FileWriter fw = new FileWriter(gameScoreText, true);){
-                System.out.println(gameScoreText.getAbsolutePath());
+            try (FileWriter fw = new FileWriter(gameScoreText, true)){
                 fw.write(sdf.format(new Date())+" Dungeon (Diff="+diff+" & Size="+mapSize+") and score: "
                         +String.format("%.2f", score)+'\n');
             } catch (IOException e){
                 e.printStackTrace();
             }
-
             switchToMain(actionEvent);
         }
     }
 
+    /**
+     * Pop an alert to ask the user if he really wants to leave the treasure room.
+     * If yes, he is redirected to the main menu without getting a score from his loot phase.
+     * If no, he stays in the treasure room and can continue looting.
+     * @param actionEvent
+     * @throws IOException
+     */
     @FXML
-    private void warnLeaveTR(ActionEvent event) throws IOException {
+    private void warnLeaveTR(ActionEvent actionEvent) throws IOException {
         Alert warnTR = new Alert(Alert.AlertType.CONFIRMATION);
         Text alertText = new Text("Are you sure you want to leave the treasure room with this loot ? " +
                 "Leaving the room will delete the current loot.");
@@ -300,21 +431,37 @@ public class Controller implements Initializable {
         Optional<ButtonType> result = warnTR.showAndWait();
         if (result.get() == ButtonType.OK) {
             pane = loader.load(getClass().getResource("mainMenu.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(pane);
             stage.setScene(scene);
             stage.show();
         }
     }
 
+    /**
+     * Generate a new set of lootable items
+     */
     private static void newLoot(){
         myLoot=Loot.generateLoot();
     }
 
 
-
-
-
+    /**
+     * Read the file "gameScoreLog.txt"
+     * @return a String representing the file content. This String will be printed as a game history.
+     */
+    private static String printHist(){
+        String res ="";
+        try (BufferedReader br = new BufferedReader(new FileReader(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                res+=line+'\n';
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 
     @FXML
     private void leaveGame(ActionEvent event) {

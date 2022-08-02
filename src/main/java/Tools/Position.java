@@ -1,7 +1,13 @@
 package Tools;
 
+import javafx.geometry.Pos;
+
 public class Position {
     protected int x, y;
+    public Position(){
+        x=0;
+        y=0;
+    }
     public Position(int x, int y){
         this.x=x;
         this.y=y;
@@ -12,14 +18,19 @@ public class Position {
     public int getY(){
         return this.y;
     }
-    public int[] getPos(){
-        int[] pos = {this.x, this.y};
-        return pos;
+    public int[] getCoords(){
+        int[] coords = {this.x, this.y};
+        return coords;
     }
-    public void  setX(int new_x){
+
+    public Position nextPos(Direction dir){
+        return new Position(this.x+dir.getDx(), this.y+dir.getDy());
+    }
+
+    public void setX(int new_x){
         this.x=new_x;
     }
-    public void  setY(int new_y){
+    public void setY(int new_y){
         this.y=new_y;
     }
     public void setPos(Position new_pos){

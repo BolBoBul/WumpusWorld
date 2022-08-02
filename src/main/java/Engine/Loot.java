@@ -1,7 +1,8 @@
 package Engine;
 
+import Tools.AlgoLoot;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,7 @@ public class Loot {
     private static Random rdm = new Random();
     private final int MAX_VALUE = 10;
     private final int MAX_WEIGHT = 5;
-    private ArrayList<String> desc = new ArrayList<String>(List.of("gold ingot", "jewel", "statue", "gemstone"));
+    private ArrayList<String> desc = new ArrayList<String>(List.of("Gold ingot", "Jewel", "Statue", "Gemstone"));
 
     public Loot(){
         value = rdm.nextInt(MAX_VALUE)+1;
@@ -31,11 +32,16 @@ public class Loot {
     }
 
     public static void main(String[] args) {
-//        for (int i=0;i<10;i++){
-//            Loot l = new Loot();
-//            System.out.println(l.toString());
-//        }
-        System.out.println( Difficulty.NORMAL.getDescription());
+        ArrayList<Loot> myLoot = new ArrayList<>();
+        myLoot.add(new Loot(3,5));
+        myLoot.add(new Loot(7,3));
+        myLoot.add(new Loot(3,4));
+        myLoot.add(new Loot(1,5));
+        myLoot.add(new Loot(3,2));
+
+        Object[] a = AlgoLoot.getBestLoot2(myLoot, 12);
+        System.out.println(a[0]);
+        System.out.println(a[1]);
     }
 
     public static ArrayList<Loot> generateLoot(){

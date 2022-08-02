@@ -33,7 +33,7 @@ public class App extends Application{
             Scene scene = new Scene(root, 900, 600);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setTitle("Wumpus World");
+            primaryStage.setTitle("Hunt the Wumpus");
             primaryStage.getIcons().add(new Image("ImageLibrary"+File.separator+"appicon.png"));
             primaryStage.show();
 
