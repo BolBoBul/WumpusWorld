@@ -185,6 +185,11 @@ public class Controller implements Initializable {
         solutionLabel.setText("To have a nice treasure, you must take :" + AlgoLoot.getBestLoot2(myLootCloned, myHero.strength)[1]);
         solutionLabel.setFont(Font.font("System", 14));
 
+        Label bagCapLab = ((Label) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(8));
+        Label bagValueLab = ((Label) ((Pane) ((StackPane) (pane.getChildren().get(0))).getChildren().get(1)).getChildren().get(11));
+        bagCapLab.setText("Bag Weight: "+(bagWeight)+"/"+ myHero.strength);
+        bagValueLab.setText("Bag Value: 0 ecu");
+
 //        updateBag(event);
 
         scene = new Scene(pane);
@@ -400,7 +405,7 @@ public class Controller implements Initializable {
         }
 
         bagSizePB.setProgress(wOverS);
-        bagCapacityLab.setText("Bag Weight : "+(bagWeight)+"/"+ myHero.strength);
+        bagCapacityLab.setText("Bag Weight: "+(bagWeight)+"/"+ myHero.strength);
         bagValueLab.setText("Bag Value: "+bagValue+" ecu(s)");
     }
 
