@@ -1,20 +1,2 @@
-[26/07/2022 16:36:38] Dungeon (Diff=NORMAL & Size=5) and score: 18,00
-[26/07/2022 16:38:35] Dungeon (Diff=HARDCORE & Size=6) and score: 51,00
-[26/07/2022 16:41:01] Dungeon (Diff=EXTREME & Size=8) and score: 80,00
-[26/07/2022 16:44:01] Dungeon (Diff=EASY & Size=8) and score: 32,90
-[26/07/2022 16:44:23] Dungeon (Diff=EASY & Size=8) and score: 0,00
-[26/07/2022 16:44:25] Dungeon (Diff=EASY & Size=8) and score: 0,00
-[26/07/2022 16:44:27] Dungeon (Diff=EASY & Size=8) and score: 0,00
-[26/07/2022 22:13:40] Dungeon (Diff=NORMAL & Size=5) and score: 37,00
-[26/07/2022 22:14:02] Dungeon (Diff=NORMAL & Size=5) and score: 48,00
-[28/07/2022 15:14:24] Dungeon (Diff=NORMAL & Size=5) and score: 32,00
-[29/07/2022 21:34:18] Dungeon (Diff=NORMAL & Size=5) and score: 0,00
-[29/07/2022 22:02:50] Dungeon (Diff=NORMAL & Size=5) and score: 19,00
-[29/07/2022 22:06:44] Dungeon (Diff=NORMAL & Size=5) and score: 39,00
-[29/07/2022 22:12:20] Dungeon (Diff=NORMAL & Size=5) and score: 34,00
-[29/07/2022 22:12:28] Dungeon (Diff=NORMAL & Size=5) and score: 9,00
-[29/07/2022 22:14:33] Dungeon (Diff=NORMAL & Size=5) and score: 27,00
-[29/07/2022 22:14:41] Dungeon (Diff=NORMAL & Size=5) and score: 15,00
-[30/07/2022 23:21:41] Dungeon (Diff=NORMAL & Size=5) and score: 29,00
-[30/07/2022 23:22:11] Dungeon (Diff=NORMAL & Size=5) and score: 33,00
-[01/08/2022 22:17:33] Dungeon (Diff=NORMAL & Size=5) and score: 45,00
+[03/08/2022 18:20:44] NORMAL 5 33,00
+[04/08/2022 11:17:17] Dungeon (Diff=NORMAL & Size=5) and score: 26,00

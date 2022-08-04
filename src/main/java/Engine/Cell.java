@@ -1,5 +1,6 @@
 package Engine;
 
+import Tools.Direction;
 import Tools.Position;
 import javafx.geometry.Pos;
 import org.checkerframework.checker.units.qual.C;
@@ -12,28 +13,20 @@ public class Cell {
     private final CellTypes DEFAULT_CT = CellTypes.EMPTY;
     public CellTypes ct, prev_ct;
 
-    public static void main(String[] args) {
-//        Cell vide = new Cell();
-//        Cell nonvide = new Cell(new Position(0,1) ,CellTypes.MONSTER);
-//        System.out.println(vide.toString());
-//        System.out.println(nonvide.toString());
-        Cell c = new Cell(0,1);
-        System.out.println(c.getX()+" "+c.getY());
-    }
 
 
     /*
-    Getter and Setter
+    Constructor
      */
     public Cell(){
         pos=new Position(0,0);
+        x=0; y=0;
         ct=DEFAULT_CT;
         prev_ct = CellTypes.EMPTY;
         hiddenState = true;
     }
     public Cell(int x, int y){
-        this.x = x;
-        this.y=y;
+        this.x = x; this.y=y;
         pos=new Position(x,y);
         ct=DEFAULT_CT;
         prev_ct = CellTypes.EMPTY;
@@ -41,17 +34,23 @@ public class Cell {
     }
     public Cell(CellTypes ct){
         pos=new Position(0,0);
+        x=0; y=0;
         this.ct=ct;
         prev_ct = CellTypes.EMPTY;
         hiddenState = true;
     }
     public Cell(Position pos, CellTypes ct){
+        this.pos=pos;
         x = pos.getX();
         y = pos.getY();
         this.ct=ct;
         prev_ct=CellTypes.EMPTY;
         hiddenState = true;
     }
+
+    /*
+    Getter and Setter
+     */
     public CellTypes getCT(){
         return this.ct;
     }
@@ -62,9 +61,21 @@ public class Cell {
         return this.y;
     }
     public Position getPos(){
-        Position pos = new Position(this.x, this.y);
-        return pos;
+//        Position pos = new Position(this.x, this.y);
+        return this.pos;
     }
+//    public Cell getNextCell(Direction dir){
+//        try {
+//            Cell c = getCell(this.getPos().nextPos(dir), )
+//            return c;
+//        } catch (IndexOutOfBoundsException e){
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//    public Cell getCell(Position pos, BoardGame bg){
+//        return bg.grid[pos.getY()][pos.getX()];
+//    }
     public boolean isHidden(){
         return hiddenState;
     }

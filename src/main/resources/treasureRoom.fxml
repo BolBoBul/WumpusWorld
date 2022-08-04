@@ -70,13 +70,13 @@
                      </font>
                   </Label>
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="342.0" layoutY="496.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
-                  <Button fx:id="leaveTRButton" focusTraversable="false" layoutX="357.0" layoutY="514.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" text="Leave Treasure Room">
+                  <Button fx:id="leaveTRButton" cancelButton="true" focusTraversable="false" layoutX="357.0" layoutY="514.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" style="-fx-background-color: WHITE;" text="Leave Treasure Room">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Button>
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="62.0" layoutX="638.0" layoutY="525.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
-                  <Button fx:id="confirmLootButton" focusTraversable="false" layoutX="659.0" layoutY="535.0" mnemonicParsing="false" onAction="#escapeWithLoot" prefHeight="41.0" prefWidth="181.0" text="Confirm Loot">
+                  <Button fx:id="confirmLootButton" defaultButton="true" focusTraversable="false" layoutX="659.0" layoutY="535.0" mnemonicParsing="false" onAction="#escapeWithLoot" prefHeight="41.0" prefWidth="181.0" style="-fx-background-color: WHITE;" text="Confirm Loot">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -87,7 +87,7 @@
                      </font>
                   </Button>
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="45.0" layoutY="72.0" opacity="0.8" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
-                  <TextArea layoutX="60.0" layoutY="88.0" opacity="0.8" prefHeight="343.0" prefWidth="211.0" wrapText="true" />
+                  <TextArea editable="false" layoutX="60.0" layoutY="88.0" opacity="0.8" prefHeight="343.0" prefWidth="211.0" wrapText="true" />
                </children>
             </Pane>
          </children>

@@ -2,6 +2,7 @@ import Engine.*;
 import Engine.Cell;
 import Tools.AlgoLoot;
 import Tools.CustomGrid;
+import Tools.Direction;
 import Tools.ResourcesBrowser;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -33,6 +33,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static Engine.BoardGame.moveToNextCell;
 import static java.lang.String.valueOf;
 
 public class Controller implements Initializable {
@@ -75,6 +76,7 @@ public class Controller implements Initializable {
     public static Dungeon dng=new Dungeon();
 
     private Pane pane;
+    private static GridPane mapGrid;
 
     private Stage stage;
     public Scene scene;
@@ -84,7 +86,7 @@ public class Controller implements Initializable {
 
     private final ObservableList<Difficulty> diffChoice = FXCollections.observableArrayList(Difficulty.PEACEFUL, Difficulty.EASY, Difficulty.NORMAL, Difficulty.HARDCORE, Difficulty.EXTREME);
     @FXML
-    Label solutionLabel=new Label(""), stealthLab = new Label("") , agilityLab = new Label("");
+    Label solutionLabel=new Label("");
     @FXML
     CheckBox solutionButton;
 
@@ -139,11 +141,14 @@ public class Controller implements Initializable {
 
         pane = loader.load(getClass().getResource("inGame.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stealthLab.setText(valueOf(myHero.stealth));
-        agilityLab.setText(valueOf(myHero.agility));
 
-        GridPane mapGrid = ((GridPane)(pane.getChildren().get(0)));
+        mapGrid = ((GridPane)(pane.getChildren().get(0)));
         CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);
+
+        Label stealthLab = (Label) ((Pane) pane.getChildren().get(1)).getChildren().get(9);
+        Label agilityLab = (Label) ((Pane) pane.getChildren().get(1)).getChildren().get(10);
+        stealthLab.setText("Stealth: "+valueOf(myHero.stealth));
+        agilityLab.setText("Agility: "+valueOf(myHero.agility));
 
         Pane subPane = ((Pane)(pane.getChildren().get(1)));
         updateProgBar(subPane);
@@ -187,13 +192,13 @@ public class Controller implements Initializable {
         stage.show();
     }
     @FXML
-    private void switchToGameHistory(ActionEvent actionEvent) throws IOException {
+    private void switchToLeaderboard(ActionEvent actionEvent) throws IOException {
         pane = loader.load(getClass().getResource("gameHistory.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
         TextArea tA = (TextArea) pane.getChildren().get(1);
         tA.setText(printHist());
-        tA.setFont(Font.font("System", 12));
+        tA.setFont(Font.font("System", 16));
         tA.setWrapText(true);
 
         scene = new Scene(pane);
@@ -291,10 +296,21 @@ public class Controller implements Initializable {
      */
     @FXML
     private void revealMap(ActionEvent actionEvent){
-//        for (Cell c : Dungeon.unrevealedCells){
-//            c.hiddenState=false;
-//        }
-//        // TO DO : UPDATE TEXTURES
+        if (Dungeon.hiddenCells.get(0).hiddenState){
+            for (Cell c : Dungeon.hiddenCells){
+                c.hiddenState=false;
+            }
+        } else {
+            for (Cell c : Dungeon.hiddenCells){
+                c.hiddenState=true;
+            }
+        }
+
+        System.out.println("Map revealed");
+        updateTextures();
+    }
+    private void updateTextures(){
+        CustomGrid.upTexture(dng, mapGrid);
     }
 
     @FXML
@@ -326,7 +342,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     *
+     * Return the content of the file "lootPhase.txt" as a String that will be used in a TextArea.
      * @param fileName the name of the file to print.
      * @return a String containing the rules of the Looting Phase
      */
@@ -497,7 +513,19 @@ public class Controller implements Initializable {
     }
     @FXML
     private void moveRight(){
+        System.out.println(dng.bg.grid[0][0].hiddenState);
         System.out.println("Moved Right");
+//        Cell c = dng.bg.grid[0][0];
+//        Cell d = dng.bg.grid[0][1];
+//        System.out.println(c.ct+ " "+c.prev_ct);
+//        System.out.println(d.ct+ " "+d.prev_ct);
+//        moveToNextCell(c, d);
+//        System.out.println(c.ct+ " "+c.prev_ct);
+//        System.out.println(d.ct+ " "+d.prev_ct);
+
+
+//        Dungeon.discoveredCell.add();
+        updateTextures();
     }
 
 

@@ -3,16 +3,17 @@ package Engine;
 import Tools.Position;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 public class Dungeon {
 
-    public static ArrayList<Cell> unrevealedCells = new ArrayList<>();
+    public static ArrayList<Cell> hiddenCells = new ArrayList<>();
+    public static LinkedList<Cell> pathCell = new LinkedList<>();
     private final Difficulty DEFAULT_DIFFICULTY = Difficulty.NORMAL;
     private Difficulty difficulty;
     private int size;
     private static Random rdm = new Random();
     public BoardGame bg;
-    public static ArrayList<Cell> discoveredCell = new ArrayList<>();
 
     public static void main(String[] args) {
         Dungeon dng = new Dungeon(5, Difficulty.NORMAL);
@@ -65,7 +66,6 @@ public class Dungeon {
             case PEACEFUL:
                 if (rng < Difficulty.PEACEFUL.getPerEmpty()) {
                     c = new Cell(CellTypes.EMPTY);
-//                    c.pos=new Position(x, y);
                 } else if (rng < (Difficulty.PEACEFUL.getPerEmpty() + Difficulty.PEACEFUL.getPerMon())) {
                     c = new Cell(CellTypes.MONSTER);
                 } else {
@@ -75,7 +75,6 @@ public class Dungeon {
             case EASY:
                 if (rng < Difficulty.EASY.getPerEmpty()) {
                     c = new Cell(CellTypes.EMPTY);
-//                    c.pos=new Position(x, y);
                 } else if (rng < (Difficulty.EASY.getPerEmpty() + Difficulty.EASY.getPerMon())) {
                     c = new Cell(CellTypes.MONSTER);
                 } else {
@@ -191,6 +190,7 @@ public class Dungeon {
 //    }
 
     public static void generateDungeon(Dungeon dng){
+        pathCell.add(dng.bg.grid[0][0]);
         Position treasPos = initTreasureLoc(dng);
         int treas_x = treasPos.getX();
         int treas_y = treasPos.getY();
@@ -199,13 +199,16 @@ public class Dungeon {
             for (int x=0;x<dng.bg.size;x++){
                 dng.bg.grid[y][x]=dng.setCellEvent();
                 dng.bg.grid[y][x].pos=new Position(x, y);
-                if (x==0 && y==0)
+                if (x==treas_x && y==treas_y) {
+                    dng.bg.grid[y][x]=new Cell(new Position(x, y) , CellTypes.TREASURE);
+                }
+                hiddenCells.add(dng.bg.grid[y][x]);
+                if (x==0 && y==0){
                     dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
-                if (x==treas_x && y==treas_y)
-                    dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.TREASURE);
-//                System.out.print(dng.bg.grid[y][x].toString());
+                    dng.bg.grid[y][x].setHidden(false);
+                    pathCell.add(dng.bg.grid[y][x]);
+                }
             }
-//            System.out.print('\n');
         }
     }
     public  void generateDungeon(){
@@ -216,14 +219,13 @@ public class Dungeon {
         for (int y=0;y<this.bg.size;y++){
             for (int x=0;x<this.bg.size;x++){
                 this.bg.grid[y][x]=this.setCellEvent();
-//                this.bg.grid[y][x].pos=new Position(x, y);
                 if (x==0 && y==0) {
                     this.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
                     this.bg.grid[y][x].prev_ct=CellTypes.EMPTY;
                 }
                 if (x==treas_x && y==treas_y){
                     this.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.TREASURE);
-                    unrevealedCells.add(this.bg.grid[y][x]);
+                    hiddenCells.add(this.bg.grid[y][x]);
                 }
             }
         }

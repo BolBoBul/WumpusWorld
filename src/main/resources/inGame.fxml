@@ -13,7 +13,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="572.0" />
+      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="572.0" />
       <Pane layoutX="605.0" layoutY="14.0" prefHeight="179.0" prefWidth="260.0">
          <children>
             <Label layoutX="8.0" mouseTransparent="true" text="Dexterity :">
@@ -79,9 +79,9 @@
       <Button fx:id="leftButton" layoutX="647.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
       <Button fx:id="downButton" layoutX="709.0" layoutY="336.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
       <Button fx:id="rightButton" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="menuButton" layoutX="709.0" layoutY="274.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
+      <Button fx:id="menuButton" cancelButton="true" layoutX="709.0" layoutY="274.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
       <TextArea fx:id="eventLogArea" editable="false" focusTraversable="false" layoutX="605.0" layoutY="420.0" mouseTransparent="true" prefHeight="164.0" prefWidth="280.0" wrapText="true" />
       <Button fx:id="showMapButt" layoutX="807.0" layoutY="388.0" mnemonicParsing="false" onAction="#revealMap" text="Reveal Map" />
-      <Button layoutX="757.0" layoutY="388.0" mnemonicParsing="false" onAction="#generateDialog" text="Gen Dialog" />
+      <Button layoutX="605.0" layoutY="388.0" mnemonicParsing="false" onAction="#generateDialog" text="Gen Dialog" />
    </children>
 </Pane>
