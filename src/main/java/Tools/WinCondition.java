@@ -1,14 +1,11 @@
 package Tools;
 
-import java.util.ArrayList;
+import Engine.Cell;
+
 
 public class WinCondition {
 
-    public static boolean testWin(ArrayList<Position> playerPos, Position treasPos){
-        for (Position pos : playerPos){
-            if (pos.getX()==treasPos.getX() && pos.getY()== treasPos.getY())
-                return true;
-        }
-        return false;
+    public static boolean testWin(Cell lastCell, Position pos){
+        return (lastCell.getX()==pos.getX() && lastCell.getY()==pos.getY());
     }
 }

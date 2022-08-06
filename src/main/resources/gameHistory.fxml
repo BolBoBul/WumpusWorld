@@ -7,10 +7,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameHistoryController">
    <children>
       <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#848484" height="445.0" layoutX="121.0" layoutY="42.0" opacity="0.7" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="674.0" />
-      <TextArea editable="false" focusTraversable="false" layoutX="135.0" layoutY="88.0" opacity="0.9" prefHeight="370.0" prefWidth="646.0">
+      <TextArea fx:id="gameHistory" editable="false" focusTraversable="false" layoutX="135.0" layoutY="88.0" opacity="0.9" prefHeight="370.0" prefWidth="646.0">
          <font>
             <Font size="16.0" />
          </font>

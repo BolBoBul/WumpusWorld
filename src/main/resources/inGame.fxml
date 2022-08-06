@@ -7,13 +7,13 @@
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inGameController">
    <children>
-      <GridPane layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="572.0" />
+      <GridPane fx:id="mapGrid" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="572.0" />
       <Pane layoutX="605.0" layoutY="14.0" prefHeight="179.0" prefWidth="260.0">
          <children>
             <Label layoutX="8.0" mouseTransparent="true" text="Dexterity :">
@@ -26,18 +26,18 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
+            <ProgressBar fx:id="dexterityPB" layoutY="26.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
+               <effect>
+                  <ColorAdjust contrast="1.0" />
+               </effect></ProgressBar>
             <Label layoutX="8.0" layoutY="94.0" mouseTransparent="true" text="Luck :">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="dexterityPB" layoutY="26.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
-               <effect>
-                  <ColorAdjust contrast="1.0" hue="1.0" />
-               </effect></ProgressBar>
             <ProgressBar fx:id="staminaPB" layoutY="73.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
                <effect>
-                  <ColorAdjust contrast="1.0" />
+                  <ColorAdjust contrast="1.0" hue="-1.0" />
                </effect></ProgressBar>
             <ProgressBar fx:id="luckPB" layoutY="126.0" mouseTransparent="true" prefHeight="18.0" prefWidth="260.0" progress="1.0">
                <effect>
@@ -74,14 +74,14 @@
       <Polygon fill="#707e8c" layoutX="674.0" layoutY="310.0" opacity="0.7" points="25.0, -36.0, 25.0, 16.0, -27.0, -10.0" stroke="#2e2e2e" strokeWidth="4.0" />
       <Polygon fill="#707e8c" layoutX="736.0" layoutY="337.0" opacity="0.7" points="-27.0, 0.0, 25.0, 0.0, -1.0, 52.0" stroke="#2e2e2e" strokeWidth="4.0" />
       <Polygon fill="#707e8c" layoutX="798.0" layoutY="313.0" opacity="0.7" points="-27.0, 13.0, 25.0, -13.0, -27.0, -39.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Circle fill="#707e8c" layoutX="735.0" layoutY="300.0" opacity="0.7" radius="27.0" stroke="#2e2e2e" strokeWidth="4.0" />
-      <Button fx:id="upButton" layoutX="709.0" layoutY="211.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="leftButton" layoutX="647.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="downButton" layoutX="709.0" layoutY="336.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="rightButton" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
-      <Button fx:id="menuButton" cancelButton="true" layoutX="709.0" layoutY="274.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="52.0" prefWidth="52.0" />
       <TextArea fx:id="eventLogArea" editable="false" focusTraversable="false" layoutX="605.0" layoutY="420.0" mouseTransparent="true" prefHeight="164.0" prefWidth="280.0" wrapText="true" />
-      <Button fx:id="showMapButt" layoutX="807.0" layoutY="388.0" mnemonicParsing="false" onAction="#revealMap" text="Reveal Map" />
+      <Button layoutX="807.0" layoutY="388.0" mnemonicParsing="false" onAction="#revealMap" text="Reveal Map" />
       <Button layoutX="605.0" layoutY="388.0" mnemonicParsing="false" onAction="#generateDialog" text="Gen Dialog" />
+      <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#707e8c" height="63.0" layoutX="706.0" layoutY="269.0" opacity="0.7" stroke="#2e2e2e" strokeWidth="4.0" width="59.0" />
+      <Button layoutX="706.0" layoutY="206.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button layoutX="769.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button layoutX="642.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button layoutX="706.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button layoutX="706.0" layoutY="271.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
    </children>
 </Pane>

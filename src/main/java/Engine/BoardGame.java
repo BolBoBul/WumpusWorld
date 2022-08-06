@@ -49,7 +49,6 @@ public class BoardGame {
     }
 
 
-    // Do it but with Cell c, Direction dir ?
     public Cell getNextCell(Direction dir){
         try {
             Position pos = playerPos.get(playerPos.size()-1);

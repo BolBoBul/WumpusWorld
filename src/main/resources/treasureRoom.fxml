@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="treasureRoomController">
    <children>
       <StackPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -41,7 +41,7 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
-                  <Label layoutX="643.0" layoutY="82.0" prefHeight="62.0" prefWidth="211.0" wrapText="true">
+                  <Label fx:id="bestProfitLabel" layoutX="643.0" layoutY="82.0" prefHeight="62.0" prefWidth="211.0" wrapText="true">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -64,7 +64,7 @@
                   </Label>
                   <ProgressBar fx:id="bagSizePB" layoutX="644.0" layoutY="442.0" prefHeight="18.0" prefWidth="204.0" progress="1.0" />
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="30.0" layoutX="638.0" layoutY="483.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="223.0" />
-                  <Label fx:id="bagValueLab" layoutX="643.0" layoutY="483.0" text="Bag Value :" textFill="WHITE">
+                  <Label fx:id="bagValueLabel" layoutX="643.0" layoutY="483.0" text="Bag Value :" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -87,7 +87,7 @@
                      </font>
                   </Button>
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="378.0" layoutX="45.0" layoutY="72.0" opacity="0.8" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
-                  <TextArea editable="false" layoutX="60.0" layoutY="88.0" opacity="0.8" prefHeight="343.0" prefWidth="211.0" wrapText="true" />
+                  <TextArea fx:id="lootRule" editable="false" layoutX="60.0" layoutY="88.0" opacity="0.8" prefHeight="343.0" prefWidth="211.0" wrapText="true" />
                </children>
             </Pane>
          </children>

@@ -101,7 +101,7 @@ public class CustomGrid {
     public static void upTexture(Dungeon dng, GridPane gp){
         ObservableList<Node> gp_children = gp.getChildren();
         for (int y=0;y<gp.getRowCount();y++){
-            for (int x=0;x< gp.getColumnCount();x++){
+            for (int x=0;x<gp.getColumnCount();x++){
                 Cell c = dng.bg.grid[y][x];
                 CellTypes ct = c.getCT();
                 ImageView iv = (ImageView) gp_children.get(y*gp.getRowCount()+x);
