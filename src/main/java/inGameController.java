@@ -1,8 +1,7 @@
 import Engine.Cell;
-import Engine.Difficulty;
-import Engine.Dungeon;
-import Engine.Hero;
+import Engine.*;
 import Tools.CustomGrid;
+import Tools.Direction;
 import Tools.Position;
 import Tools.WinCondition;
 import javafx.event.ActionEvent;
@@ -12,11 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -28,16 +24,19 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import static Engine.Dungeon.pathCell;
+import static Engine.BoardGame.canMoveDir;
+import static Engine.BoardGame.playerPos;
+import static Engine.Dungeon.*;
 import static java.lang.String.valueOf;
 
 public class inGameController implements Initializable {
     private Position treasPos;
     private static Hero myHero=new Hero();
-    private static Dungeon dng=new Dungeon();
+    private static Dungeon dng;
     protected static Difficulty diff = newGameController.getDifficulty();
     protected int mapSize = newGameController.getMapSize();
-    private static ArrayList<String> STEALTH_FAIL=new ArrayList<>(),
+    private static ArrayList<String>
+            STEALTH_FAIL=new ArrayList<>(),
             STEALTH_SUCCESS=new ArrayList<>(),
             AGILITY_FAIL=new ArrayList<>(),
             AGILITY_SUCCESS=new ArrayList<>();
@@ -104,14 +103,14 @@ public class inGameController implements Initializable {
     @FXML
     private void revealMap(ActionEvent actionEvent){
         Button button = (Button) actionEvent.getSource();
-        if (Dungeon.hiddenCells.get(0).hiddenState){
-            for (Engine.Cell c : Dungeon.hiddenCells){
+        if (hiddenCells.get(0).hiddenState){
+            for (Engine.Cell c : hiddenCells){
                 c.hiddenState=false;
             }
             button.setText("Hide Map");
         }
         else {
-            for (Cell c : Dungeon.hiddenCells){
+            for (Cell c : hiddenCells){
                 c.hiddenState=true;
             }
             button.setText("Reveal Map");
@@ -121,13 +120,21 @@ public class inGameController implements Initializable {
 
     /**
      * Switches the current scene to the Main Menu
-     * @param event
+     * @param actionEvent
      * @throws IOException
      */
     @FXML
-    private void switchToMain(ActionEvent event) throws IOException {
+    private void switchToMain(ActionEvent actionEvent) throws IOException {
         pane = loader.load(getClass().getResource("mainMenu.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void switchToTreasure(ActionEvent actionEvent) throws IOException {
+        pane = loader.load(getClass().getResource("treasureRoom.fxml"));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
@@ -147,11 +154,7 @@ public class inGameController implements Initializable {
         warnTR.setTitle("Leave Game ?");
         Optional<ButtonType> result = warnTR.showAndWait();
         if (result.get() == ButtonType.OK) {
-            pane = loader.load(getClass().getResource("mainMenu.fxml"));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(pane);
-            stage.setScene(scene);
-            stage.show();
+            switchToMain(actionEvent);
         }
     }
 
@@ -162,39 +165,101 @@ public class inGameController implements Initializable {
         CustomGrid.upTexture(dng, mapGrid);
     }
 
-    public void moveUp(ActionEvent actionEvent) {
-        System.out.println("Moved Up");
+    public void moveUp(ActionEvent actionEvent) throws IOException {
+        Cell e = pathCell.getLast();
+        e.x=e.getPos().getX(); e.y=e.getPos().getY();
+
+        if (canMoveDir(dng.bg, e, Direction.UP)) {
+            dng.bg.moveToNextCell(pathCell.getLast(), Direction.UP);
+            updateTextures();
+            this.updateProgBar();
+            Position playerPos = BoardGame.playerPos.getLast();
+            if (WinCondition.testWin(playerPos, treasPos)) {
+                this.switchToTreasure(actionEvent);
+            }
+        } else {
+            System.out.println("Can't move Up");
+        }
     }
 
-    public void moveDown(ActionEvent actionEvent) {
-        System.out.println("Moved Down");
+    public void moveDown(ActionEvent actionEvent) throws IOException {
+        Cell e = pathCell.getLast();
+        e.x=e.getPos().getX(); e.y=e.getPos().getY();
+
+        if (canMoveDir(dng.bg, e, Direction.DOWN)){
+            dng.bg.moveToNextCell(pathCell.getLast(), Direction.DOWN);
+            updateTextures();
+            this.updateProgBar();
+            e = pathCell.getLast();
+            Position playerPos = BoardGame.playerPos.getLast();
+            if (WinCondition.testWin(playerPos, treasPos)){
+                this.switchToTreasure(actionEvent);
+            }
+        } else {
+            System.out.println("Can't move Down");
+        }
     }
 
-    public void moveRight(ActionEvent actionEvent) {
-        System.out.println("Moved Right");
-//        Cell c = dng.bg.grid[0][0];
-//        Cell d = dng.bg.grid[0][1];
-//        System.out.println(c.ct+ " "+c.prev_ct);
-//        System.out.println(d.ct+ " "+d.prev_ct);
-//        moveToNextCell(c, d);
-//        System.out.println(c.ct+ " "+c.prev_ct);
-//        System.out.println(d.ct+ " "+d.prev_ct);
+    public void moveRight(ActionEvent actionEvent) throws IOException {
+        Cell e = bg.getCell(playerPos.getLast());
+        e.x=e.getPos().getX(); e.y=e.getPos().getY();
 
-
-//        Dungeon.discoveredCell.add();
-        updateTextures();
-        System.out.println("Treas: "+treasPos);
-        System.out.println(WinCondition.testWin(pathCell.get(pathCell.size()-1), treasPos));
-//        System.out.println(treasPos);
-        this.updateProgBar();
+        if (canMoveDir(dng.bg, e, Direction.RIGHT)) {
+            dng.bg.moveToNextCell(pathCell.getLast(), Direction.RIGHT);
+            updateTextures();
+            this.updateProgBar();
+            Position playerPos = BoardGame.playerPos.getLast();
+            if (WinCondition.testWin(playerPos, treasPos)){
+                this.switchToTreasure(actionEvent);
+            }
+        } else {
+            System.out.println("Can't move Right");
+        }
     }
 
-    public void moveLeft(ActionEvent actionEvent) {
-        System.out.println("Moved Left");
+    public void moveLeft(ActionEvent actionEvent) throws IOException {
+        Cell e = pathCell.getLast();
+        e.x=e.getPos().getX(); e.y=e.getPos().getY();
+
+        if (canMoveDir(dng.bg, e, Direction.LEFT)){
+            dng.bg.moveToNextCell(pathCell.getLast(), Direction.LEFT);
+            updateTextures();
+            this.updateProgBar();
+            Position playerPos = BoardGame.playerPos.getLast();
+            if (WinCondition.testWin(playerPos, treasPos)){
+                this.switchToTreasure(actionEvent);
+            }
+        } else {
+            System.out.println("Can't move Left");
+        }
+    }
+
+    public void checkCellEvent(Cell c) throws InterruptedException, IOException {
+        CellTypes ct = c.getCT();
+        switch (ct){
+            case TREASURE:
+                this.switchToTreasure(new ActionEvent());
+                //Pop alert :"Congrats you managed to find the treasure room
+                break;
+            case MONSTER:
+                if (myHero.stealthTest()){
+                    break;
+                } else {
+                    myHero.fightMonster(new Monster());
+                }
+                break;
+            case TRAP:
+                myHero.escapeTrap();
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pathCell.clear();
+        playerPos.clear();
         myHero = new Hero();
         dng = new Dungeon(mapSize, diff);
         CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);

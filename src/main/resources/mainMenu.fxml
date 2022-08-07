@@ -23,7 +23,7 @@
       </ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <StackPane layoutX="349.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity">
+            <StackPane layoutX="349.0" layoutY="208.0" maxHeight="-Infinity" maxWidth="-Infinity">
                <children>
                   <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#848484" height="224.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="201.0" />
                   <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="160.0" prefWidth="145.0">
@@ -57,6 +57,11 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <ImageView fitHeight="150.0" fitWidth="800.0" focusTraversable="true" layoutX="50.0" layoutY="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" smooth="false">
+               <image>
+                  <Image url="@ImageLibrary/wumpusworld.png" />
+               </image>
+            </ImageView>
          </children></Pane>
    </children>
 </StackPane>

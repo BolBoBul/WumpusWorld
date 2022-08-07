@@ -3,10 +3,9 @@ package Engine;
 import Tools.Direction;
 import Tools.Position;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static Engine.Dungeon.generateDungeon;
+import static Engine.Dungeon.*;
 
 public class BoardGame {
     public static LinkedList<Position> playerPos = new LinkedList<>();
@@ -17,21 +16,6 @@ public class BoardGame {
     public static void main(String[] args) {
         Dungeon dng = new Dungeon();
         generateDungeon(dng);
-        playerPos.add(new Position(0,0));
-        Cell c = dng.bg.grid[0][0];
-        Cell d = dng.bg.getNextCell(Direction.RIGHT);
-        System.out.println(c.ct+" "+c.prev_ct);
-        System.out.println(d.ct+" "+d.prev_ct);
-        System.out.println(d.getPos());
-
-        moveToNextCell(c, d);
-        System.out.println(c.ct+" "+c.prev_ct);
-        System.out.println(d.ct+" "+d.prev_ct);
-
-
-        for (Position pos : playerPos){
-            System.out.println(pos.toString());
-        }
     }
     public BoardGame(){
         size = DEFAULT_SIZE;
@@ -49,30 +33,83 @@ public class BoardGame {
     }
 
 
+//    public static void moveToNextCell(Cell c, Cell d){
+//        Cell temp = new Cell();
+//
+//        d.prev_ct=d.ct;
+//        d.ct=c.ct;
+//        temp.ct=c.ct;
+//        c.ct=c.prev_ct;
+//        c.prev_ct=temp.ct;
+//
+//        d.setHidden(false);
+//
+//        Dungeon.pathCell.add(d);
+//        playerPos.add(d.getPos());
+//    }
+    public void moveToNextCell(Cell c, Direction dir){
+        BoardGame bg = this;
+        Cell temp = new Cell();
+        System.out.println("Pos initiale: "+c.getPos());
+        c.x=c.getPos().getX(); c.y=c.getPos().getY();
+        System.out.println(c.getX()+" "+c.getY());
+        Cell d = c.getNextCell(dir, bg);
+        System.out.println("Pos après deplacement: "+d.getPos());
+
+//        pathCell.add(d);
+//        playerPos.add(d.getPos());
+
+        System.out.println("AVANT: "+ c.ct+" "+d.ct);
+        System.out.println("       "+ c.prev_ct+" "+d.prev_ct);
+
+        d.prev_ct=d.ct;
+//        System.out.println("d prev: "+d.prev_ct);
+        d.ct=c.ct;
+//        System.out.println("d ct: "+d.ct);
+        temp.ct=c.ct;
+//        System.out.println("temp ct: "+temp.ct);
+        c.ct=c.prev_ct;
+//        System.out.println("c ct: "+c.ct);
+        c.prev_ct=temp.ct;
+//        System.out.println("c prev: "+c.prev_ct);
+
+        System.out.println("APRES: "+ c.ct+" "+d.ct);
+        System.out.println("       "+ c.prev_ct+" "+d.prev_ct);
+
+        d.hiddenState=false;
+
+        pathCell.add(d);
+        playerPos.add(d.getPos());
+        hiddenCells.remove(d);
+    }
+
     public Cell getNextCell(Direction dir){
+        Cell start = pathCell.getLast();
+        System.out.println("Last cell in List (gNC meth) "+start.getCT()+" "+start.getPrevCT());
         try {
-            Position pos = playerPos.get(playerPos.size()-1);
-            Cell c = this.grid[pos.getY()+ dir.getDy()][pos.getX()+ dir.getDx()];
+            System.out.println(start.getPos()+" (last cell pos in gNC)");
+            Cell c = this.grid[start.getY()+dir.getDy()][start.getX()+dir.getDx()];
+            System.out.println("Y: "+start.getY()+dir.getDy()+" X:"+start.getX()+dir.getDx());
+            System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
             return c;
         } catch (IndexOutOfBoundsException e){
             e.printStackTrace();
         }
         return null;
     }
-
-    public static void moveToNextCell(Cell c, Cell d){
-        Cell temp = new Cell();
-
-        d.prev_ct=d.ct;
-        d.ct=c.ct;
-        temp.ct=c.ct;
-        c.ct=c.prev_ct;
-        c.prev_ct=temp.ct;
-
-        d.setHidden(false);
-
-        Dungeon.pathCell.add(d);
-        playerPos.add(d.getPos());
+    public static Cell getNextCell(Direction dir, BoardGame bg){
+        Cell start = pathCell.getLast();
+        System.out.println("Last cell in List (gNC meth) "+start.getCT()+" "+start.getPrevCT());
+        try {
+            System.out.println(start.getPos()+" (last cell pos in gNC)");
+            Cell c = bg.grid[start.getY()+dir.getDy()][start.getX()+dir.getDx()];
+            System.out.println("Y: "+start.getY()+" "+dir.getDy()+" X:"+start.getX()+" "+dir.getDx());
+            System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
+            return c;
+        } catch (IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -45,8 +45,8 @@ public class treasureRoomController implements Initializable {
     private static int bagValue=0, bagWeight=0;
     private static ArrayList<Loot> myLoot;
     private static final Hero myHero = new Hero();
-    private static Difficulty diff = Difficulty.NORMAL;
-    private static int mapSize = 5;
+    public static Difficulty diff = Difficulty.NORMAL;
+    public static int mapSize = 5;
 
     /**
      * Show the solution of an optimal solution
@@ -121,6 +121,8 @@ public class treasureRoomController implements Initializable {
      */
     public void escapeWithLoot(ActionEvent actionEvent) throws IOException {
         updateBag(actionEvent);
+        mapSize=newGameController.getMapSize();
+        diff=newGameController.getDifficulty();
         if (bagWeight> myHero.strength){
             Alert warnTR = new Alert(Alert.AlertType.ERROR);
             Text alertText = new Text("You can't lift your bag. Try to remove some item(s).");

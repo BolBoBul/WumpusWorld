@@ -78,10 +78,10 @@
       <Button layoutX="807.0" layoutY="388.0" mnemonicParsing="false" onAction="#revealMap" text="Reveal Map" />
       <Button layoutX="605.0" layoutY="388.0" mnemonicParsing="false" onAction="#generateDialog" text="Gen Dialog" />
       <Rectangle arcHeight="15.0" arcWidth="15.0" fill="#707e8c" height="63.0" layoutX="706.0" layoutY="269.0" opacity="0.7" stroke="#2e2e2e" strokeWidth="4.0" width="59.0" />
-      <Button layoutX="706.0" layoutY="206.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
-      <Button layoutX="769.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
-      <Button layoutX="642.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
-      <Button layoutX="706.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
-      <Button layoutX="706.0" layoutY="271.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button focusTraversable="false" layoutX="706.0" layoutY="206.0" mnemonicParsing="false" onAction="#moveUp" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button focusTraversable="false" layoutX="769.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveRight" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button focusTraversable="false" layoutX="642.0" layoutY="271.0" mnemonicParsing="false" onAction="#moveLeft" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button focusTraversable="false" layoutX="706.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveDown" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
+      <Button cancelButton="true" focusTraversable="false" layoutX="706.0" layoutY="271.0" mnemonicParsing="false" onAction="#warnIG" opacity="0.0" prefHeight="59.0" prefWidth="59.0" text="Button" />
    </children>
 </Pane>

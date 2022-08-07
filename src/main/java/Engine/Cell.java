@@ -2,8 +2,6 @@ package Engine;
 
 import Tools.Direction;
 import Tools.Position;
-import javafx.geometry.Pos;
-import org.checkerframework.checker.units.qual.C;
 
 public class Cell {
 
@@ -54,6 +52,9 @@ public class Cell {
     public CellTypes getCT(){
         return this.ct;
     }
+    public CellTypes getPrevCT(){
+        return this.prev_ct;
+    }
     public int getX(){
         return this.x;
     }
@@ -61,8 +62,17 @@ public class Cell {
         return this.y;
     }
     public Position getPos(){
-//        Position pos = new Position(this.x, this.y);
         return this.pos;
+    }
+    public Cell getNextCell(Direction dir, BoardGame bg){
+//        Cell start = this;
+        Cell c = null;
+        System.out.println("Last cell in List (gNC meth) "+this.getCT()+" "+this.getPrevCT());
+        System.out.println(this.getPos()+" (last cell pos in gNC)");
+        c = bg.grid[this.getY()+dir.getDy()][this.getX()+dir.getDx()];
+        System.out.println("X: "+(this.getX()+dir.getDx())+" & Y: "+(this.getY()+dir.getDy()));
+        System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
+        return c;
     }
 //    public Cell getNextCell(Direction dir){
 //        try {
@@ -83,14 +93,18 @@ public class Cell {
     public void setCellType(CellTypes new_ct){
         this.ct=new_ct;
     }
+    public void setPrevCT(CellTypes new_prevCT){
+        this.prev_ct=new_prevCT;
+    }
     public void setHidden(boolean isHidden){
         this.hiddenState = isHidden;
     }
 
+
     @Override
     public String toString() {
-        String str = this.ct.toString();
-//        String str = this.ct.name()+" and is hidden ? "+this.isHidden;
+//        String str = this.ct.toString();
+        String str = this.ct.name();
         return str;
     }
 }

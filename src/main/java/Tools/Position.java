@@ -1,7 +1,5 @@
 package Tools;
 
-import javafx.geometry.Pos;
-
 public class Position {
     protected int x, y;
     public Position(){

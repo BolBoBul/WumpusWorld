@@ -1,11 +1,13 @@
 package Engine;
 
 import Tools.Position;
-import javafx.geometry.Pos;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+
+import static Engine.BoardGame.playerPos;
+
 public class Dungeon {
 
     public static ArrayList<Cell> hiddenCells = new ArrayList<>();
@@ -13,9 +15,9 @@ public class Dungeon {
     public static Position objectivePos=new Position();
      final Difficulty DEFAULT_DIFFICULTY = Difficulty.NORMAL;
     protected Difficulty difficulty;
-    private int size;
+    public int size;
     private static Random rdm = new Random();
-    public BoardGame bg;
+    public static BoardGame bg;
 
     public static void main(String[] args) {
         Dungeon dng = new Dungeon(5, Difficulty.NORMAL);
@@ -52,7 +54,7 @@ public class Dungeon {
     public Cell setCellEvent() {
         Difficulty d = this.difficulty;
         int rng = rdm.nextInt(100);
-        Cell c = null;
+        Cell c;
         switch (d) {
             case PEACEFUL:
                 if (rng < Difficulty.PEACEFUL.getPerEmpty()) {
@@ -99,34 +101,33 @@ public class Dungeon {
                     c = new Cell(CellTypes.TRAP);
                 }
                 return c;
-            default:{
+            default:
                 return null;
-            }
         }
     }
 
     public static void generateDungeon(Dungeon dng){
         objectivePos = initTreasureLoc(dng);
-        System.out.println("Treas: "+objectivePos);
         int treas_x = objectivePos.getX();
         int treas_y = objectivePos.getY();
 
         for (int y=0;y<dng.bg.size;y++){
             for (int x=0;x<dng.bg.size;x++){
                 dng.bg.grid[y][x]=dng.setCellEvent();
-                dng.bg.grid[y][x].pos=new Position(x, y);
+                dng.bg.grid[y][x].pos.setPos(x,y);
+                System.out.println(dng.bg.grid[y][x].getPos());
                 if (x==treas_x && y==treas_y) {
                     dng.bg.grid[y][x]=new Cell(new Position(x, y) , CellTypes.TREASURE);
                 }
                 hiddenCells.add(dng.bg.grid[y][x]);
                 if (x==0 && y==0){
                     dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
-                    dng.bg.grid[y][x].setHidden(false);
+                    dng.bg.grid[y][x].hiddenState=false;
+                    playerPos.add(dng.bg.grid[y][x].getPos());
                     pathCell.add(dng.bg.grid[y][x]);
                 }
             }
         }
-        pathCell.add(dng.bg.grid[0][0]);
     }
 
     public static Position initTreasureLoc(Dungeon dng){

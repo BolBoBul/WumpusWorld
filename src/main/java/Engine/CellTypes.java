@@ -1,16 +1,18 @@
 package Engine;
 
 public enum CellTypes {
-    EMPTY("O"),
-    MONSTER("M"),
-    TRAP("T"),
-    TREASURE("X"),
-    HERO("H"),
+    EMPTY("EMPTY","O"),
+    MONSTER("MONSTER","M"),
+    TRAP("TRAP","T"),
+    TREASURE("TREASURE","X"),
+    HERO("HERO","H"),
 
     ;
     private String ID;
-    CellTypes(String ID){
+    private String symbol;
+    CellTypes(String ID, String symbol){
         this.ID=ID;
+        this.symbol=symbol;
     }
     private String getCellTypes(){
         return this.ID;
@@ -18,6 +20,6 @@ public enum CellTypes {
 
     @Override
     public String toString() {
-        return this.getCellTypes();
+        return this.ID;
     }
 }

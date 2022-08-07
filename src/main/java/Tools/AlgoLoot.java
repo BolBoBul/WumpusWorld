@@ -1,6 +1,7 @@
 package Tools;
 
 import Engine.Loot;
+
 import java.util.ArrayList;
 
 public class AlgoLoot {
