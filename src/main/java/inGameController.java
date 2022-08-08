@@ -1,9 +1,6 @@
 import Engine.Cell;
 import Engine.*;
-import Tools.CustomGrid;
-import Tools.Direction;
-import Tools.Position;
-import Tools.WinCondition;
+import Tools.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,15 +16,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static Engine.BoardGame.canMoveDir;
 import static Engine.BoardGame.playerPos;
 import static Engine.Dungeon.*;
-import static java.lang.String.valueOf;
 
 public class inGameController implements Initializable {
     private Position treasPos;
@@ -35,11 +28,11 @@ public class inGameController implements Initializable {
     private static Dungeon dng;
     protected static Difficulty diff = newGameController.getDifficulty();
     protected int mapSize = newGameController.getMapSize();
-    private static ArrayList<String>
-            STEALTH_FAIL=new ArrayList<>(),
-            STEALTH_SUCCESS=new ArrayList<>(),
-            AGILITY_FAIL=new ArrayList<>(),
-            AGILITY_SUCCESS=new ArrayList<>();
+    private static final ArrayList<String>
+            STEALTH_FAIL=new ArrayList<>();
+    private static final ArrayList<String> STEALTH_SUCCESS=new ArrayList<>();
+    private static final ArrayList<String> AGILITY_FAIL=new ArrayList<>();
+    private static final ArrayList<String> AGILITY_SUCCESS=new ArrayList<>();
     static {
         STEALTH_FAIL.add("*BOOM* You tripped over a rock and drop something, you woke up the monster.");
         STEALTH_FAIL.add("As you walk into the dark room, you can feel a breeze. The problem? This breeze smells like corpse.");
@@ -83,6 +76,8 @@ public class inGameController implements Initializable {
 
     @FXML
     private void generateDialog(ActionEvent actionEvent){
+        CustomEventDescription.loadTexts();
+
         ArrayList<ArrayList> all = new ArrayList<>();
         all.add(STEALTH_FAIL);
         all.add(STEALTH_SUCCESS);
@@ -118,6 +113,13 @@ public class inGameController implements Initializable {
         updateTextures();
     }
 
+    private void switchToMain() throws IOException {
+        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+        stage = (Stage) eventLogArea.getScene().getWindow();
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
     /**
      * Switches the current scene to the Main Menu
      * @param actionEvent
@@ -125,15 +127,21 @@ public class inGameController implements Initializable {
      */
     @FXML
     private void switchToMain(ActionEvent actionEvent) throws IOException {
-        pane = loader.load(getClass().getResource("mainMenu.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }
-
+    private void switchToTreasure() throws IOException{
+        pane = FXMLLoader.load(getClass().getResource("treasureRoom.fxml"));
+        stage = (Stage) eventLogArea.getScene().getWindow();
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
     private void switchToTreasure(ActionEvent actionEvent) throws IOException {
-        pane = loader.load(getClass().getResource("treasureRoom.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("treasureRoom.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -165,91 +173,103 @@ public class inGameController implements Initializable {
         CustomGrid.upTexture(dng, mapGrid);
     }
 
-    public void moveUp(ActionEvent actionEvent) throws IOException {
-        Cell e = pathCell.getLast();
-        e.x=e.getPos().getX(); e.y=e.getPos().getY();
-
-        if (canMoveDir(dng.bg, e, Direction.UP)) {
-            dng.bg.moveToNextCell(pathCell.getLast(), Direction.UP);
-            updateTextures();
-            this.updateProgBar();
-            Position playerPos = BoardGame.playerPos.getLast();
-            if (WinCondition.testWin(playerPos, treasPos)) {
-                this.switchToTreasure(actionEvent);
-            }
-        } else {
-            System.out.println("Can't move Up");
-        }
-    }
-
-    public void moveDown(ActionEvent actionEvent) throws IOException {
-        Cell e = pathCell.getLast();
-        e.x=e.getPos().getX(); e.y=e.getPos().getY();
-
-        if (canMoveDir(dng.bg, e, Direction.DOWN)){
-            dng.bg.moveToNextCell(pathCell.getLast(), Direction.DOWN);
-            updateTextures();
-            this.updateProgBar();
-            e = pathCell.getLast();
-            Position playerPos = BoardGame.playerPos.getLast();
-            if (WinCondition.testWin(playerPos, treasPos)){
-                this.switchToTreasure(actionEvent);
-            }
-        } else {
-            System.out.println("Can't move Down");
-        }
-    }
-
-    public void moveRight(ActionEvent actionEvent) throws IOException {
+    /**
+     * Make the hero move upward if possible
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void moveUp(ActionEvent actionEvent) throws IOException, InterruptedException {
         Cell e = bg.getCell(playerPos.getLast());
-        e.x=e.getPos().getX(); e.y=e.getPos().getY();
 
-        if (canMoveDir(dng.bg, e, Direction.RIGHT)) {
-            dng.bg.moveToNextCell(pathCell.getLast(), Direction.RIGHT);
+        if (canMoveDir(bg, e, Direction.UP)) {
+            bg.moveToNextCell(pathCell.getLast(), Direction.UP);
             updateTextures();
+            this.checkCellEvent(pathCell.getLast());
+//            updateTextures();
             this.updateProgBar();
-            Position playerPos = BoardGame.playerPos.getLast();
-            if (WinCondition.testWin(playerPos, treasPos)){
-                this.switchToTreasure(actionEvent);
-            }
-        } else {
-            System.out.println("Can't move Right");
         }
     }
 
-    public void moveLeft(ActionEvent actionEvent) throws IOException {
-        Cell e = pathCell.getLast();
-        e.x=e.getPos().getX(); e.y=e.getPos().getY();
+    /**
+     * Make the hero move downward if possible
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void moveDown(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Cell e = bg.getCell(playerPos.getLast());
 
-        if (canMoveDir(dng.bg, e, Direction.LEFT)){
-            dng.bg.moveToNextCell(pathCell.getLast(), Direction.LEFT);
+        if (canMoveDir(bg, e, Direction.DOWN)) {
+            bg.moveToNextCell(pathCell.getLast(), Direction.DOWN);
             updateTextures();
+            this.checkCellEvent(pathCell.getLast());
+//            updateTextures();
             this.updateProgBar();
-            Position playerPos = BoardGame.playerPos.getLast();
-            if (WinCondition.testWin(playerPos, treasPos)){
-                this.switchToTreasure(actionEvent);
-            }
-        } else {
-            System.out.println("Can't move Left");
+        }
+    }
+
+    /**
+     * Make the hero move to the right if possible
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void moveRight(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Cell e = bg.getCell(playerPos.getLast());
+
+        if (canMoveDir(bg, e, Direction.RIGHT)) {
+            bg.moveToNextCell(pathCell.getLast(), Direction.RIGHT);
+            updateTextures();
+            this.checkCellEvent(pathCell.getLast());
+//            updateTextures();
+            this.updateProgBar();
+        }
+    }
+
+    /**
+     * Make the hero move to the left if possible
+     * @param actionEvent
+     * @throws IOException
+     */
+    public void moveLeft(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Cell e = bg.getCell(playerPos.getLast());
+
+        if (canMoveDir(bg, e, Direction.LEFT)) {
+            bg.moveToNextCell(pathCell.getLast(), Direction.LEFT);
+            updateTextures();
+            this.checkCellEvent(pathCell.getLast());
+//            updateTextures();
+            this.updateProgBar();
         }
     }
 
     public void checkCellEvent(Cell c) throws InterruptedException, IOException {
-        CellTypes ct = c.getCT();
-        switch (ct){
+        CellTypes prev_ct = c.getPrevCT();
+        switch (prev_ct){
             case TREASURE:
-                this.switchToTreasure(new ActionEvent());
+                this.switchToTreasure();
                 //Pop alert :"Congrats you managed to find the treasure room
                 break;
             case MONSTER:
                 if (myHero.stealthTest()){
+                    System.out.println("You escaped from monster");
                     break;
                 } else {
+                    System.out.println("You start fighting a monster");
                     myHero.fightMonster(new Monster());
+
+                    if (myHero.stamina<1)
+                        this.switchToMain();
+
+                    //If we defeat a monster, he died and won't be visible on the map anymore
+                    c.prev_ct=CellTypes.EMPTY;
                 }
                 break;
             case TRAP:
-                myHero.escapeTrap();
+                if (myHero.agilityTest()){
+                    System.out.println("You escaped from a trap");
+                } else {
+                    System.out.println("You fell in a trap");
+                    myHero.escapeTrap();
+                }
                 break;
             default:
                 break;
@@ -267,8 +287,8 @@ public class inGameController implements Initializable {
         treasPos = Dungeon.objectivePos;
 
         updateProgBar();
-        stealthLab.setText("Stealth: "+valueOf(myHero.stealth));
-        agilityLab.setText("Agility: "+valueOf(myHero.agility));
+        stealthLab.setText("Stealth: "+ myHero.stealth);
+        agilityLab.setText("Agility: "+ myHero.agility);
 
     }
 }

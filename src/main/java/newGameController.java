@@ -41,14 +41,14 @@ public class newGameController implements Initializable {
     private TextArea diffDescription;
 
     public void switchToMain(ActionEvent actionEvent) throws IOException {
-        pane = loader.load(getClass().getResource("mainMenu.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }
     public void switchToInGame(ActionEvent actionEvent) throws IOException {
-        pane = loader.load(getClass().getResource("inGame.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("inGame.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);

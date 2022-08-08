@@ -1,8 +1,5 @@
 package Tools;
 
-import Engine.Cell;
-
-
 public class WinCondition {
 
     public static boolean testWin(Position playerPos, Position pos){

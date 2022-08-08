@@ -23,7 +23,7 @@ public class Controller {
      */
     @FXML
     private void switchToLevelCreation(ActionEvent event) throws IOException {
-        pane = loader.load(getClass().getResource("newGame.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("newGame.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -37,7 +37,7 @@ public class Controller {
      */
     @FXML
     private void switchToTreasure(ActionEvent event) throws IOException {
-        pane = loader.load(getClass().getResource("treasureRoom.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("treasureRoom.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -51,7 +51,7 @@ public class Controller {
      */
     @FXML
     private void switchToGameHistory(ActionEvent actionEvent) throws IOException {
-        pane = loader.load(getClass().getResource("gameHistory.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("gameHistory.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);

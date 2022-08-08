@@ -8,8 +8,8 @@ public enum CellTypes {
     HERO("HERO","H"),
 
     ;
-    private String ID;
-    private String symbol;
+    private final String ID;
+    private final String symbol;
     CellTypes(String ID, String symbol){
         this.ID=ID;
         this.symbol=symbol;

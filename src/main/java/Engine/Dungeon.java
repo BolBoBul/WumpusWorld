@@ -16,7 +16,7 @@ public class Dungeon {
      final Difficulty DEFAULT_DIFFICULTY = Difficulty.NORMAL;
     protected Difficulty difficulty;
     public int size;
-    private static Random rdm = new Random();
+    private static final Random rdm = new Random();
     public static BoardGame bg;
 
     public static void main(String[] args) {
@@ -25,15 +25,15 @@ public class Dungeon {
 
         for (int y = 0; y< dng.size;y++){
             for (int x=0;x< dng.size;x++){
-                System.out.print(dng.bg.grid[y][x].getCT());
+                System.out.print(bg.grid[y][x].getCT());
             }
-            System.out.println("");
+            System.out.println();
         }
     }
     public Dungeon(){
         difficulty=DEFAULT_DIFFICULTY;
         bg=new BoardGame();
-        size=this.bg.getSize();
+        size= bg.getSize();
     }
     public Dungeon(int size){
         difficulty=DEFAULT_DIFFICULTY;
@@ -49,8 +49,12 @@ public class Dungeon {
         this.difficulty=difficulty;
         bg = new BoardGame(size);
         this.size=size;
-        }
+    }
 
+    /**
+     * Gives the cell its attributes
+      * @return the cell with its attributes set
+     */
     public Cell setCellEvent() {
         Difficulty d = this.difficulty;
         int rng = rdm.nextInt(100);
@@ -106,49 +110,53 @@ public class Dungeon {
         }
     }
 
+    /**
+     * Generate the dungeon matrix
+     * @param dng   the dungeon perks defined by the user when creating the level
+     */
     public static void generateDungeon(Dungeon dng){
         objectivePos = initTreasureLoc(dng);
         int treas_x = objectivePos.getX();
         int treas_y = objectivePos.getY();
 
-        for (int y=0;y<dng.bg.size;y++){
-            for (int x=0;x<dng.bg.size;x++){
-                dng.bg.grid[y][x]=dng.setCellEvent();
-                dng.bg.grid[y][x].pos.setPos(x,y);
-                System.out.println(dng.bg.grid[y][x].getPos());
+        for (int y = 0; y< bg.size; y++){
+            for (int x = 0; x< bg.size; x++){
+                bg.grid[y][x]=dng.setCellEvent();
+                bg.grid[y][x].pos.setPos(x,y);
                 if (x==treas_x && y==treas_y) {
-                    dng.bg.grid[y][x]=new Cell(new Position(x, y) , CellTypes.TREASURE);
+                    bg.grid[y][x]=new Cell(new Position(x, y) , CellTypes.TREASURE);
                 }
-                hiddenCells.add(dng.bg.grid[y][x]);
+                hiddenCells.add(bg.grid[y][x]);
                 if (x==0 && y==0){
-                    dng.bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
-                    dng.bg.grid[y][x].hiddenState=false;
-                    playerPos.add(dng.bg.grid[y][x].getPos());
-                    pathCell.add(dng.bg.grid[y][x]);
+                    bg.grid[y][x]=new Cell(new Position(x, y) ,CellTypes.HERO);
+                    bg.grid[y][x].hiddenState=false;
+                    playerPos.add(bg.grid[y][x].getPos());
+                    pathCell.add(bg.grid[y][x]);
                 }
             }
         }
     }
 
+    /**
+     * Defines the location of the treasure room in the dungeon
+     * @param dng   the dungeon
+     * @return      the position of the Treasure room
+     */
     public static Position initTreasureLoc(Dungeon dng){
-        int treas_x = rdm.nextInt(dng.bg.size);
-        int treas_y = rdm.nextInt(dng.bg.size);
+        int treas_x = rdm.nextInt(bg.size);
+        int treas_y = rdm.nextInt(bg.size);
         while (treas_x==0 && treas_y==0){
-            treas_x = rdm.nextInt(dng.bg.size);
-            treas_y = rdm.nextInt(dng.bg.size);
+            treas_x = rdm.nextInt(bg.size);
+            treas_y = rdm.nextInt(bg.size);
         }
         return new Position(treas_x, treas_y);
     }
-    public Difficulty getDifficulty(){
-        return this.difficulty;
-    }
     public int getSize(){
-        return this.bg.getSize();
+        return bg.getSize();
     }
-//    public static Position
 
     @Override
     public String toString() {
-        return "Size : "+this.bg.size+" in difficulty "+this.difficulty.toString();
+        return "Size : "+ bg.size+" in difficulty "+this.difficulty.toString();
     }
 }

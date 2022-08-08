@@ -28,53 +28,32 @@ public class BoardGame {
     public int getSize(){
         return this.size;
     }
+
+    /**
+     * Return the cell at a certain position
+     * @param pos   the position of the cell
+     * @return      the cell at the designated position
+     */
     public Cell getCell(Position pos){
         return this.grid[pos.getY()][pos.getX()];
     }
 
-
-//    public static void moveToNextCell(Cell c, Cell d){
-//        Cell temp = new Cell();
-//
-//        d.prev_ct=d.ct;
-//        d.ct=c.ct;
-//        temp.ct=c.ct;
-//        c.ct=c.prev_ct;
-//        c.prev_ct=temp.ct;
-//
-//        d.setHidden(false);
-//
-//        Dungeon.pathCell.add(d);
-//        playerPos.add(d.getPos());
-//    }
+    /**
+     * Move the hero to the next cell
+     * @param c     the cell that represents the hero
+     * @param dir   the direction he wants to go
+     */
     public void moveToNextCell(Cell c, Direction dir){
         BoardGame bg = this;
         Cell temp = new Cell();
-        System.out.println("Pos initiale: "+c.getPos());
         c.x=c.getPos().getX(); c.y=c.getPos().getY();
-        System.out.println(c.getX()+" "+c.getY());
         Cell d = c.getNextCell(dir, bg);
-        System.out.println("Pos après deplacement: "+d.getPos());
-
-//        pathCell.add(d);
-//        playerPos.add(d.getPos());
-
-        System.out.println("AVANT: "+ c.ct+" "+d.ct);
-        System.out.println("       "+ c.prev_ct+" "+d.prev_ct);
 
         d.prev_ct=d.ct;
-//        System.out.println("d prev: "+d.prev_ct);
         d.ct=c.ct;
-//        System.out.println("d ct: "+d.ct);
         temp.ct=c.ct;
-//        System.out.println("temp ct: "+temp.ct);
         c.ct=c.prev_ct;
-//        System.out.println("c ct: "+c.ct);
         c.prev_ct=temp.ct;
-//        System.out.println("c prev: "+c.prev_ct);
-
-        System.out.println("APRES: "+ c.ct+" "+d.ct);
-        System.out.println("       "+ c.prev_ct+" "+d.prev_ct);
 
         d.hiddenState=false;
 
@@ -83,39 +62,16 @@ public class BoardGame {
         hiddenCells.remove(d);
     }
 
-    public Cell getNextCell(Direction dir){
-        Cell start = pathCell.getLast();
-        System.out.println("Last cell in List (gNC meth) "+start.getCT()+" "+start.getPrevCT());
-        try {
-            System.out.println(start.getPos()+" (last cell pos in gNC)");
-            Cell c = this.grid[start.getY()+dir.getDy()][start.getX()+dir.getDx()];
-            System.out.println("Y: "+start.getY()+dir.getDy()+" X:"+start.getX()+dir.getDx());
-            System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
-            return c;
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public static Cell getNextCell(Direction dir, BoardGame bg){
-        Cell start = pathCell.getLast();
-        System.out.println("Last cell in List (gNC meth) "+start.getCT()+" "+start.getPrevCT());
-        try {
-            System.out.println(start.getPos()+" (last cell pos in gNC)");
-            Cell c = bg.grid[start.getY()+dir.getDy()][start.getX()+dir.getDx()];
-            System.out.println("Y: "+start.getY()+" "+dir.getDy()+" X:"+start.getX()+" "+dir.getDx());
-            System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
-            return c;
-        } catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
+    /**
+     * Checks if the hero can move in a direction
+     * @param bg    the board game
+     * @param c     the cell which represents the hero
+     * @param dir   the direction
+     * @return      true if the movement is possible
+     */
     public static boolean canMoveDir(BoardGame bg, Cell c, Direction dir){
-        int cx = c.getX(), cxdx = cx+ dir.getDx();
-        int cy = c.getY(), cydy = cy+ dir.getDy();
+        int cx = c.getPos().getX(), cxdx = cx+ dir.getDx();
+        int cy = c.getPos().getY(), cydy = cy+ dir.getDy();
 
         switch (dir){
             case UP:
@@ -132,6 +88,4 @@ public class BoardGame {
         }
         return false;
     }
-
-
 }

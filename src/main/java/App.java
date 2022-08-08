@@ -20,11 +20,11 @@ public class App extends Application{
         Pane root;
 
         try {
-            root = loader.load(getClass().getResource("mainMenu.fxml"));
+            root = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
             Scene scene = new Scene(root, 900, 600);
             primaryStage.setScene(scene);
             primaryStage.setResizable(false);
-            primaryStage.setTitle("Hunt the Wumpus");
+            primaryStage.setTitle("Wumpus World");
             primaryStage.getIcons().add(new Image("ImageLibrary"+File.separator+"appicon.png"));
             primaryStage.show();
 

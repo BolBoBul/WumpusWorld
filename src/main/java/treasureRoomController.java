@@ -163,7 +163,7 @@ public class treasureRoomController implements Initializable {
         warnTR.setTitle("Leave Treasure Room ?");
         Optional<ButtonType> result = warnTR.showAndWait();
         if (result.get() == ButtonType.OK) {
-            pane = loader.load(getClass().getResource("mainMenu.fxml"));
+            pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(pane);
             stage.setScene(scene);
@@ -196,7 +196,7 @@ public class treasureRoomController implements Initializable {
     }
     @FXML
     private void switchToMain(ActionEvent event) throws IOException {
-        pane = loader.load(getClass().getResource("mainMenu.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);

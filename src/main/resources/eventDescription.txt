@@ -1,0 +1,13 @@
+To add more event description, just follow as done. Add "X. " before your sentence, where X could go from 1 to 4... 1 is for StealthSuccess, 2 for StealthFail, 3 for AgilitySuccess and 4 for AgilityFail.
+*
+1. You tiptoe along the walls, and you manage to cross the room without waking the creature.
+1. As you enter the room, you see a creature staring at you. Fortunately, the creature seems to be blind.
+*
+2. *BOOM* You tripped over a rock and drop something, you woke up the monster.
+2. As you walk into the dark room, you can feel a breeze. The problem? This breeze smells like corpse.
+2. As you push the old door, it starts to emit a shrill noise... You start to hear grunts coming from behind the door.
+*
+3. You notice a trip wire on the ground, you step over it.
+*
+4. As you enter the room, a swarm of bats swoops down on you, causing you to lose your balance and fall into a pit.
+4. As you walk into the room, a slab sinks under the weight of your foot, it's a trap!

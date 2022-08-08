@@ -25,6 +25,10 @@ import static Engine.Dungeon.generateDungeon;
 
 public class CustomGrid {
     static Image monster = new Image("ImageLibrary"+File.separator+"monsterC.png");
+    static Image monsterT = new Image("ImageLibrary"+File.separator+"Image8.jpg");
+    static Image trapT = new Image("ImageLibrary"+File.separator+"Image6.jpg");
+    static Image heroT = new Image("ImageLibrary"+File.separator+"Image9.jpg");
+
     static Image trap = new Image("ImageLibrary"+File.separator+"trapC.png");
     static Image treas = new Image("ImageLibrary"+File.separator+"treasureC.png");
     static Image hero = new Image("ImageLibrary"+File.separator+"heroC.png");
@@ -56,20 +60,20 @@ public class CustomGrid {
                 ImageView iv = new ImageView();
                 iv.setPreserveRatio(true);
                 gp.setAlignment(Pos.CENTER);
-                Cell c = dng.bg.grid[y][x];
+                Cell c = Dungeon.bg.grid[y][x];
                 CellTypes ct = c.getCT();
                 if (c.hiddenState)
                     iv.setImage(fog);
                 else {
                     switch (ct) {
                         case HERO:
-                            iv.setImage(hero);
+                            iv.setImage(heroT);
                             break;
                         case TRAP:
-                            iv.setImage(trap);
+                            iv.setImage(trapT);
                             break;
                         case MONSTER:
-                            iv.setImage(monster);
+                            iv.setImage(monsterT);
                             break;
                         case TREASURE:
                             iv.setImage(treas);
@@ -102,7 +106,7 @@ public class CustomGrid {
         ObservableList<Node> gp_children = gp.getChildren();
         for (int y=0;y<gp.getRowCount();y++){
             for (int x=0;x<gp.getColumnCount();x++){
-                Cell c = dng.bg.grid[y][x];
+                Cell c = Dungeon.bg.grid[y][x];
                 CellTypes ct = c.getCT();
                 ImageView iv = (ImageView) gp_children.get(y*gp.getRowCount()+x);
                 if (c.isHidden()) {
@@ -111,13 +115,13 @@ public class CustomGrid {
                 else {
                     switch (ct) {
                         case HERO:
-                            iv.setImage(hero);
+                            iv.setImage(heroT);
                             break;
                         case TRAP:
-                            iv.setImage(trap);
+                            iv.setImage(trapT);
                             break;
                         case MONSTER:
-                            iv.setImage(monster);
+                            iv.setImage(monsterT);
                             break;
                         case EMPTY:
                             iv.setImage(empty);

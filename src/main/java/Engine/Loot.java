@@ -8,12 +8,12 @@ import java.util.Random;
 
 public class Loot {
     private double value, weight;
-    private double ratio;
-    private String description;
-    private static Random rdm = new Random();
+    private final double ratio;
+    private final String description;
+    private static final Random rdm = new Random();
     private final int MAX_VALUE = 10;
     private final int MAX_WEIGHT = 5;
-    private ArrayList<String> desc = new ArrayList<String>(List.of("Gold ingot", "Jewel", "Statue", "Gemstone"));
+    private final ArrayList<String> desc = new ArrayList<String>(List.of("Gold ingot", "Jewel", "Statue", "Gemstone"));
 
     public Loot(){
         value = rdm.nextInt(MAX_VALUE)+1;

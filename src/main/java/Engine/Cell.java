@@ -65,13 +65,8 @@ public class Cell {
         return this.pos;
     }
     public Cell getNextCell(Direction dir, BoardGame bg){
-//        Cell start = this;
         Cell c = null;
-        System.out.println("Last cell in List (gNC meth) "+this.getCT()+" "+this.getPrevCT());
-        System.out.println(this.getPos()+" (last cell pos in gNC)");
         c = bg.grid[this.getY()+dir.getDy()][this.getX()+dir.getDx()];
-        System.out.println("X: "+(this.getX()+dir.getDx())+" & Y: "+(this.getY()+dir.getDy()));
-        System.out.println("Next cell in dir: "+c.getCT()+" "+c.getPrevCT());
         return c;
     }
 //    public Cell getNextCell(Direction dir){

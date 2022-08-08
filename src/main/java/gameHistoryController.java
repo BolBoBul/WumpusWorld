@@ -25,7 +25,7 @@ public class gameHistoryController implements Initializable {
 
     @FXML
     private void switchToMain(ActionEvent event) throws IOException {
-        pane = loader.load(getClass().getResource("mainMenu.fxml"));
+        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -35,7 +35,7 @@ public class gameHistoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gameHistory.setText(treasureRoomController.printHist());
-        gameHistory.setFont(Font.font("System", 16));
+        gameHistory.setFont(Font.font("System", 14));
         gameHistory.setWrapText(true);
     }
 }
