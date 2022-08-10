@@ -14,9 +14,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="inGameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.inGameController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="900.0" pickOnBounds="true" smooth="false">
+      <ImageView fx:id="ivInGame" fitHeight="600.0" fitWidth="900.0" pickOnBounds="true" smooth="false">
          <image>
             <Image url="@ImageLibrary/inGameImage.png" />
          </image>

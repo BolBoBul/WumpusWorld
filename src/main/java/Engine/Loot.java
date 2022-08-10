@@ -39,7 +39,7 @@ public class Loot {
         myLoot.add(new Loot(1,5));
         myLoot.add(new Loot(3,2));
 
-        Object[] a = AlgoLoot.getBestLoot2(myLoot, 12);
+        Object[] a = AlgoLoot.getBestLoot(myLoot, 12);
         System.out.println(a[0]);
         System.out.println(a[1]);
     }

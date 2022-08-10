@@ -87,10 +87,10 @@ public class Dungeon {
                     c = new Cell(CellTypes.TRAP);
                 }
                 return c;
-            case HARDCORE:
-                if (rng < Difficulty.HARDCORE.getPerEmpty()) {
+            case HARD:
+                if (rng < Difficulty.HARD.getPerEmpty()) {
                     c = new Cell(CellTypes.EMPTY);
-                } else if (rng < Difficulty.HARDCORE.getPerEmpty() + Difficulty.HARDCORE.getPerMon()) {
+                } else if (rng < Difficulty.HARD.getPerEmpty() + Difficulty.HARD.getPerMon()) {
                     c = new Cell(CellTypes.MONSTER);
                 } else {
                     c = new Cell(CellTypes.TRAP);

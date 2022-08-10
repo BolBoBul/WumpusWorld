@@ -2,13 +2,19 @@ package Engine;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import Controllers.inGameController;
+
 public class Hero extends Entity{
+
+    private Controllers.inGameController igCont;
 
     private static final Random rdm = new Random();
     public int luck, strength, stealth, agility;
@@ -35,7 +41,7 @@ public class Hero extends Entity{
         agility = rdm.nextInt(9)+6;
     }
 
-    public void fightMonster(Monster m) throws InterruptedException {
+    public void fightMonster(Monster m) throws InterruptedException, IOException {
         int hScore, mScore;
         String log= "";
         while(this.stamina>0 && m.stamina>0){
@@ -53,7 +59,7 @@ public class Hero extends Entity{
                 this.stamina-=2;
             }
             System.out.println(log);
-            TimeUnit.MILLISECONDS.sleep(800);
+            TimeUnit.MILLISECONDS.sleep(400);
         }
         if (this.stamina<1){
             //Pop alert, you're dead => Ask if play again ? generate new map
@@ -64,7 +70,7 @@ public class Hero extends Entity{
             warnIG.setTitle("You're dead");
             Optional<ButtonType> result = warnIG.showAndWait();
             if (result.get() == ButtonType.OK) {
-//                switchToMain(actionEvent);
+                igCont.switchToMain();
             }
         }
     }
@@ -72,6 +78,7 @@ public class Hero extends Entity{
     public void escapeTrap(){
         int trapScore = rdm.nextInt(11)+2;
         if (trapScore<=this.luck){
+//            inGameController.addDialog(text);
             System.out.println("You managed to get out easily");
             this.luck-=1;
         } else {

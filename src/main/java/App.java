@@ -1,3 +1,4 @@
+import Tools.ResourcesBrowser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,13 +10,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class App extends Application{
-
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage){
         FXMLLoader loader = new FXMLLoader();
         Pane root;
 

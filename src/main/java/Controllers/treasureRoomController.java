@@ -1,3 +1,5 @@
+package Controllers;
+
 import Engine.Difficulty;
 import Engine.Hero;
 import Engine.Loot;
@@ -12,6 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -28,6 +32,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class treasureRoomController implements Initializable {
+    private Image treasureImage = new Image("ImageLibrary"+File.separator+"TreasureRoom.jpg");
     private Pane pane;
     private Stage stage;
     public Scene scene;
@@ -42,6 +47,8 @@ public class treasureRoomController implements Initializable {
     ProgressBar bagSizePB;
     @FXML
     TextArea lootRule;
+    @FXML
+    ImageView ivTreasure;
     private static int bagValue=0, bagWeight=0;
     private static ArrayList<Loot> myLoot;
     private static final Hero myHero = new Hero();
@@ -50,7 +57,7 @@ public class treasureRoomController implements Initializable {
 
     /**
      * Show the solution of an optimal solution
-     * @param event
+     * @param event A semantic event which indicates that a component-defined action occurred.
      */
     public void seeLootSolution(ActionEvent event) {
         solutionLabel.setVisible(solutionButton.isSelected());
@@ -77,8 +84,7 @@ public class treasureRoomController implements Initializable {
 
     /**
      * Update the content of the bag i.e. update its value and its capacity.
-     * /!\ Since the loot array is static, must re launch the app to generate a new loot /!\
-     * @param actionEvent
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
      */
     @FXML
     public void updateBag(ActionEvent actionEvent){
@@ -116,13 +122,16 @@ public class treasureRoomController implements Initializable {
 
     /**
      * It updates your bag and then check if you can leave the treasure room with your bag.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
      */
     public void escapeWithLoot(ActionEvent actionEvent) throws IOException {
         updateBag(actionEvent);
         mapSize=newGameController.getMapSize();
         diff=newGameController.getDifficulty();
+        if (diff==null)
+            diff=Difficulty.NORMAL;
+
         if (bagWeight> myHero.strength){
             Alert warnTR = new Alert(Alert.AlertType.ERROR);
             Text alertText = new Text("You can't lift your bag. Try to remove some item(s).");
@@ -133,11 +142,11 @@ public class treasureRoomController implements Initializable {
             Optional<ButtonType> result = warnTR.showAndWait();
         } else {
             double score = Difficulty.getFinalScore(diff, bagValue);
-            SimpleDateFormat sdf = new SimpleDateFormat("[dd/MM/yyyy HH:mm:ss]");
+            SimpleDateFormat sdf = new SimpleDateFormat("[dd/MM/yyyy_HH:mm:ss]");
             File gameScoreText = new File(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt");
 
             try (FileWriter fw = new FileWriter(gameScoreText, true)){
-                fw.write(sdf.format(new Date())+" Dungeon (Diff="+diff+" & Size="+mapSize+") and score: "
+                fw.write(sdf.format(new Date())+" "+diff+" "+mapSize+" "
                         +String.format("%.2f", score)+'\n');
             } catch (IOException e){
                 e.printStackTrace();
@@ -150,8 +159,8 @@ public class treasureRoomController implements Initializable {
      * Pop an alert to ask the user if he really wants to leave the treasure room.
      * If yes, he is redirected to the main menu without getting a score from his loot phase.
      * If no, he stays in the treasure room and can continue looting.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
      */
     @FXML
     private void warnLeaveTR(ActionEvent actionEvent) throws IOException {
@@ -163,7 +172,7 @@ public class treasureRoomController implements Initializable {
         warnTR.setTitle("Leave Treasure Room ?");
         Optional<ButtonType> result = warnTR.showAndWait();
         if (result.get() == ButtonType.OK) {
-            pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+            pane = FXMLLoader.load(getClass().getResource(".."+File.separator+"mainMenu.fxml"));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(pane);
             stage.setScene(scene);
@@ -183,20 +192,29 @@ public class treasureRoomController implements Initializable {
      * @return a String representing the file content. This String will be printed as a game history.
      */
     protected static String printHist(){
-        String res ="";
+        StringBuilder res = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(ResourcesBrowser.RESOURCESPATH+"gameScoreLog.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                res+=line+'\n';
+                String[] words = line.split(" ");
+                for (String word : words){
+                    res.append(word+'\t');
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return res;
+        return res.toString();
     }
+
+    /**
+     * Bring the user back to the main memu.
+     * @param event A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
+     */
     @FXML
     private void switchToMain(ActionEvent event) throws IOException {
-        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
+        pane = FXMLLoader.load(getClass().getResource(".."+File.separator+"mainMenu.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -207,15 +225,17 @@ public class treasureRoomController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         newLoot();
 
+        ivTreasure.setImage(treasureImage);
+
         lootRule.setText(printLootRules("lootPhase.txt"));
         lootRule.setFont(Font.font("System", 14));
 
         CustomGrid.addAvailableLoot(lootAvailable, myLoot);
         ArrayList<Loot> myLootCloned = (ArrayList<Loot>) myLoot.clone();
-        bestProfitLabel.setText("A good potential looting value is "+ AlgoLoot.getBestLoot2(myLootCloned, myHero.strength)[0]);
+        bestProfitLabel.setText("A good potential looting value is "+ AlgoLoot.getBestLoot(myLootCloned, myHero.strength)[0]);
         bestProfitLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
         bestProfitLabel.setWrapText(true);
-        solutionLabel.setText("To have a nice treasure, you must take :" + AlgoLoot.getBestLoot2(myLootCloned, myHero.strength)[1]);
+        solutionLabel.setText("To have a nice treasure, you must take :" + AlgoLoot.getBestLoot(myLootCloned, myHero.strength)[1]);
         solutionLabel.setFont(Font.font("System", 14));
 
         bagCapLabel.setText("Bag Weight: "+(bagWeight)+"/"+ myHero.strength);

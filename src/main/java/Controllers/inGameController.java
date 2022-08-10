@@ -1,3 +1,5 @@
+package Controllers;
+
 import Engine.Cell;
 import Engine.*;
 import Tools.*;
@@ -8,12 +10,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -23,6 +28,8 @@ import static Engine.BoardGame.playerPos;
 import static Engine.Dungeon.*;
 
 public class inGameController implements Initializable {
+    private Image inGameImage = new Image("ImageLibrary"+File.separator+"inGameImage.png");
+
     private Position treasPos;
     private static Hero myHero=new Hero();
     private static Dungeon dng;
@@ -51,7 +58,9 @@ public class inGameController implements Initializable {
     private FXMLLoader loader;
 
     @FXML
-    private TextArea eventLogArea;
+    ImageView ivInGame;
+    @FXML
+    public static TextArea eventLogArea;
     @FXML
     private GridPane mapGrid;
     @FXML
@@ -93,7 +102,7 @@ public class inGameController implements Initializable {
 
     /**
      * Remove the fog of war and then, reveal the content of every undiscovered cell.
-     * @param actionEvent
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
      */
     @FXML
     private void revealMap(ActionEvent actionEvent){
@@ -113,35 +122,25 @@ public class inGameController implements Initializable {
         updateTextures();
     }
 
-    private void switchToMain() throws IOException {
-        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-        stage = (Stage) eventLogArea.getScene().getWindow();
+    /**
+     * Bring the user to the main Menu.
+     * @throws IOException If the fxml file is not found.
+     */
+    public void switchToMain() throws IOException {
+        pane = FXMLLoader.load(getClass().getResource(".."+ File.separator+"mainMenu.fxml"));
+        stage = (Stage) ((Scene) mapGrid.getScene()).getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();
     }
     /**
-     * Switches the current scene to the Main Menu
-     * @param actionEvent
-     * @throws IOException
+     * Bring the user to the main Menu.
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
      */
     @FXML
     private void switchToMain(ActionEvent actionEvent) throws IOException {
-        pane = FXMLLoader.load(getClass().getResource("mainMenu.fxml"));
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
-    }
-    private void switchToTreasure() throws IOException{
-        pane = FXMLLoader.load(getClass().getResource("treasureRoom.fxml"));
-        stage = (Stage) eventLogArea.getScene().getWindow();
-        scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.show();
-    }
-    private void switchToTreasure(ActionEvent actionEvent) throws IOException {
-        pane = FXMLLoader.load(getClass().getResource("treasureRoom.fxml"));
+        pane = FXMLLoader.load(getClass().getResource(".."+ File.separator+"mainMenu.fxml"));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(pane);
         stage.setScene(scene);
@@ -149,9 +148,21 @@ public class inGameController implements Initializable {
     }
 
     /**
+     * Bring the user to the TreasureRoom.
+     * @throws IOException If the fxml file is not found.
+     */
+    private void switchToTreasure() throws IOException{
+        pane = FXMLLoader.load(getClass().getResource(".."+File.separator+"treasureRoom.fxml"));
+        stage = (Stage) mapGrid.getScene().getWindow();
+        scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
      * Ask the user if he really wants to go quit the exploration and go back to the main menu.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
      */
     @FXML
     private void warnIG(ActionEvent actionEvent) throws IOException {
@@ -175,8 +186,9 @@ public class inGameController implements Initializable {
 
     /**
      * Make the hero move upward if possible
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
+     * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
      */
     public void moveUp(ActionEvent actionEvent) throws IOException, InterruptedException {
         Cell e = bg.getCell(playerPos.getLast());
@@ -185,15 +197,15 @@ public class inGameController implements Initializable {
             bg.moveToNextCell(pathCell.getLast(), Direction.UP);
             updateTextures();
             this.checkCellEvent(pathCell.getLast());
-//            updateTextures();
             this.updateProgBar();
         }
     }
 
     /**
      * Make the hero move downward if possible
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
+     * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
      */
     public void moveDown(ActionEvent actionEvent) throws IOException, InterruptedException {
         Cell e = bg.getCell(playerPos.getLast());
@@ -202,15 +214,15 @@ public class inGameController implements Initializable {
             bg.moveToNextCell(pathCell.getLast(), Direction.DOWN);
             updateTextures();
             this.checkCellEvent(pathCell.getLast());
-//            updateTextures();
             this.updateProgBar();
         }
     }
 
     /**
      * Make the hero move to the right if possible
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
+     * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
      */
     public void moveRight(ActionEvent actionEvent) throws IOException, InterruptedException {
         Cell e = bg.getCell(playerPos.getLast());
@@ -219,15 +231,15 @@ public class inGameController implements Initializable {
             bg.moveToNextCell(pathCell.getLast(), Direction.RIGHT);
             updateTextures();
             this.checkCellEvent(pathCell.getLast());
-//            updateTextures();
             this.updateProgBar();
         }
     }
 
     /**
      * Make the hero move to the left if possible
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent A semantic event which indicates that a component-defined action occurred.
+     * @throws IOException If the fxml file is not found.
+     * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.
      */
     public void moveLeft(ActionEvent actionEvent) throws IOException, InterruptedException {
         Cell e = bg.getCell(playerPos.getLast());
@@ -236,7 +248,6 @@ public class inGameController implements Initializable {
             bg.moveToNextCell(pathCell.getLast(), Direction.LEFT);
             updateTextures();
             this.checkCellEvent(pathCell.getLast());
-//            updateTextures();
             this.updateProgBar();
         }
     }
@@ -246,7 +257,6 @@ public class inGameController implements Initializable {
         switch (prev_ct){
             case TREASURE:
                 this.switchToTreasure();
-                //Pop alert :"Congrats you managed to find the treasure room
                 break;
             case MONSTER:
                 if (myHero.stealthTest()){
@@ -254,6 +264,7 @@ public class inGameController implements Initializable {
                     break;
                 } else {
                     System.out.println("You start fighting a monster");
+                    updateTextures();
                     myHero.fightMonster(new Monster());
 
                     if (myHero.stamina<1)
@@ -283,6 +294,8 @@ public class inGameController implements Initializable {
         myHero = new Hero();
         dng = new Dungeon(mapSize, diff);
         CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);
+
+        ivInGame.setImage(inGameImage);
 
         treasPos = Dungeon.objectivePos;
 
