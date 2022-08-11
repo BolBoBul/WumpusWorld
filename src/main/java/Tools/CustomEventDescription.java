@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CustomEventDescription {
-
-    private static final ArrayList<String> STEALTHSUCCESS = new ArrayList<>(),
+    private static ArrayList<String> STEALTHSUCCESS = new ArrayList<>(),
             STEALTHFAIL = new ArrayList<>(),
             AGILITYSUCCESS = new ArrayList<>(),
             AGILITYFAIL = new ArrayList<>();
-    private static Random rdm;
+    public static Random rdm=new Random();
 
     public static String getStealthSuccess(){
-        return STEALTHSUCCESS.get(rdm.nextInt(STEALTHSUCCESS.size()));
+        return STEALTHSUCCESS.get(rdm.nextInt(STEALTHSUCCESS.size()))+'\n'+"PREPARE TO FIGHT!!";
     }
     public static String getStealthFail(){
-        return STEALTHFAIL.get(rdm.nextInt(STEALTHFAIL.size()))+'\n'+"Prepare to fight !";
+        return STEALTHFAIL.get(rdm.nextInt(STEALTHFAIL.size()))+'\n'+"PREPARE TO FIGHT!!";
     }
     public static String getAgilitySuccess(){
         return AGILITYSUCCESS.get(rdm.nextInt(AGILITYSUCCESS.size()));

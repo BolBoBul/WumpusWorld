@@ -69,8 +69,8 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="342.0" layoutY="496.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="241.0" />
-                  <Button fx:id="leaveTRButton" cancelButton="true" layoutX="357.0" layoutY="514.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="211.0" style="-fx-background-color: WHITE;" text="Leave Treasure Room">
+                  <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#595959" height="78.0" layoutX="325.0" layoutY="496.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="2.0" width="280.0" />
+                  <Button fx:id="leaveTRButton" cancelButton="true" layoutX="345.0" layoutY="513.0" mnemonicParsing="false" onAction="#warnLeaveTR" prefHeight="43.0" prefWidth="241.0" style="-fx-background-color: WHITE;" text="Leave Treasure Room">
                      <font>
                         <Font size="19.0" />
                      </font>

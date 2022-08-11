@@ -24,14 +24,10 @@ import java.util.ArrayList;
 import static Engine.Dungeon.generateDungeon;
 
 public class CustomGrid {
-    static Image monster = new Image("ImageLibrary"+File.separator+"monsterC.png");
     static Image monsterT = new Image("ImageLibrary"+File.separator+"Image8.jpg");
     static Image trapT = new Image("ImageLibrary"+File.separator+"Image6.jpg");
     static Image heroT = new Image("ImageLibrary"+File.separator+"Image9.jpg");
-
-    static Image trap = new Image("ImageLibrary"+File.separator+"trapC.png");
     static Image treas = new Image("ImageLibrary"+File.separator+"treasureC.png");
-    static Image hero = new Image("ImageLibrary"+File.separator+"heroC.png");
     static Image empty = new Image("ImageLibrary"+File.separator+"nullC.png");
     static Image fog = new Image("ImageLibrary"+File.separator+"hiddenCell.png");
 
@@ -136,8 +132,4 @@ public class CustomGrid {
             }
         }
     }
-
-
-
-
 }

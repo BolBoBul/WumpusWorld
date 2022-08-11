@@ -23,7 +23,7 @@
          </font>
       </TextArea>
       <Rectangle arcHeight="25.0" arcWidth="25.0" fill="#848484" height="64.0" layoutX="369.0" layoutY="502.0" opacity="0.7" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="177.0" />
-      <Button cancelButton="true" focusTraversable="false" layoutX="380.0" layoutY="512.0" mnemonicParsing="false" onAction="#switchToMain" text="Back to menu" wrapText="true">
+      <Button cancelButton="true" focusTraversable="false" layoutX="380.0" layoutY="512.0" mnemonicParsing="false" onAction="#switchToMain" text="Back to menu">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

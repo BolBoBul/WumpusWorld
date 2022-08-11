@@ -58,8 +58,7 @@ public class Hero extends Entity{
                 log = "You took 2 damages from the monster";
                 this.stamina-=2;
             }
-            System.out.println(log);
-            TimeUnit.MILLISECONDS.sleep(400);
+//            TimeUnit.MILLISECONDS.sleep(400);
         }
         if (this.stamina<1){
             //Pop alert, you're dead => Ask if play again ? generate new map
@@ -79,10 +78,8 @@ public class Hero extends Entity{
         int trapScore = rdm.nextInt(11)+2;
         if (trapScore<=this.luck){
 //            inGameController.addDialog(text);
-            System.out.println("You managed to get out easily");
             this.luck-=1;
         } else {
-            System.out.println("You had difficulties to get out");
             this.stamina-=2;
         }
     }

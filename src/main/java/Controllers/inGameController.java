@@ -26,6 +26,7 @@ import java.util.*;
 import static Engine.BoardGame.canMoveDir;
 import static Engine.BoardGame.playerPos;
 import static Engine.Dungeon.*;
+import static Tools.CustomEventDescription.*;
 
 public class inGameController implements Initializable {
     private Image inGameImage = new Image("ImageLibrary"+File.separator+"inGameImage.png");
@@ -60,7 +61,7 @@ public class inGameController implements Initializable {
     @FXML
     ImageView ivInGame;
     @FXML
-    public static TextArea eventLogArea;
+    private TextArea eventLogArea;
     @FXML
     private GridPane mapGrid;
     @FXML
@@ -81,23 +82,6 @@ public class inGameController implements Initializable {
         dextLab.setTextAlignment(TextAlignment.RIGHT);
         stamLab.setTextAlignment(TextAlignment.RIGHT);
         luckLab.setTextAlignment(TextAlignment.RIGHT);
-    }
-
-    @FXML
-    private void generateDialog(ActionEvent actionEvent){
-        CustomEventDescription.loadTexts();
-
-        ArrayList<ArrayList> all = new ArrayList<>();
-        all.add(STEALTH_FAIL);
-        all.add(STEALTH_SUCCESS);
-        all.add(AGILITY_FAIL);
-        all.add(AGILITY_SUCCESS);
-
-        pane = (Pane) ((Button) actionEvent.getSource()).getParent();
-        int index = new Random().nextInt(all.size());
-        int subIndex = new Random().nextInt(all.get(index).size());
-        String dialog = (String) all.get(index).get(subIndex)+'\n';
-        eventLogArea.appendText(dialog);
     }
 
     /**
@@ -260,10 +244,11 @@ public class inGameController implements Initializable {
                 break;
             case MONSTER:
                 if (myHero.stealthTest()){
+                    eventLogArea.appendText(getStealthSuccess()+'\n');
                     System.out.println("You escaped from monster");
                     break;
                 } else {
-                    System.out.println("You start fighting a monster");
+                    eventLogArea.appendText(getStealthFail()+'\n');
                     updateTextures();
                     myHero.fightMonster(new Monster());
 
@@ -276,9 +261,9 @@ public class inGameController implements Initializable {
                 break;
             case TRAP:
                 if (myHero.agilityTest()){
-                    System.out.println("You escaped from a trap");
+                    eventLogArea.appendText(getAgilitySuccess()+'\n');
                 } else {
-                    System.out.println("You fell in a trap");
+                    eventLogArea.appendText(getAgilityFail()+'\n');
                     myHero.escapeTrap();
                 }
                 break;
@@ -294,6 +279,7 @@ public class inGameController implements Initializable {
         myHero = new Hero();
         dng = new Dungeon(mapSize, diff);
         CustomGrid.generateDungeonGrid(mapGrid, dng, diff, mapSize);
+        CustomEventDescription.loadTexts();
 
         ivInGame.setImage(inGameImage);
 
